@@ -4,5 +4,8 @@
   "requestFramePermissions": [
     "camera",
     "microphone"
-  ]
+  ],
+  "vercel": {
+    "framework": "vite"
+  }
 }
