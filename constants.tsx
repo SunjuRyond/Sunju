@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Shield, MapPin, Tablet, School, Building, Smartphone, Check, X } from 'lucide-react';
 
@@ -13,7 +12,10 @@ export const COLORS = {
 export const ROUTES = {
   HOME: '/',
   MODEL: '/model',
-  IMPACT: '/impact'
+  IMPACT: '/impact',
+  STUDIO: '/studio',
+  AUTH: '/auth',
+  PROFILE: '/profile'
 };
 
 export const COMPARISON_DATA = [

@@ -1,7 +1,11 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from 'framer-motion';
-import { ArrowRight, School, Laptop, AlertTriangle, Users } from 'lucide-react';
+import { 
+  ArrowRight, School, Laptop, AlertTriangle, Users, 
+  Smartphone, Instagram, Zap, Sparkles, CheckCircle, 
+  Heart, Hand, Brain, MessageSquare, Bot 
+} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { AnimatedCounter } from '../components/AnimatedCounter';
 
@@ -32,14 +36,37 @@ const ParticleBg = () => (
 );
 
 const Hero = () => {
+  const [returningUser, setReturningUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    const lastUser = localStorage.getItem('acadup_last_user_name');
+    const currentUser = localStorage.getItem('acadup_user');
+    if (lastUser && !currentUser) {
+      setReturningUser(lastUser);
+    }
+  }, []);
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-6 mesh-gradient">
       <ParticleBg />
       <div className="container mx-auto text-center relative z-10">
+        <AnimatePresence>
+          {returningUser && (
+            <motion.div
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-6 flex items-center justify-center gap-3 text-[#0b1c2e] font-display font-bold text-xl md:text-2xl"
+            >
+              <Hand className="text-[#f03c2e] animate-bounce" size={24} />
+              Welcome back, {returningUser}!
+            </motion.div>
+          )}
+        </AnimatePresence>
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 bg-[#f03c2e]/10 text-[#f03c2e] px-6 py-2 rounded-full text-sm font-black mb-8 border border-[#f03c2e]/20 tracking-wide"
+          className="inline-flex items-center gap-2 bg-[#f03c2e]/10 text-[#f03c2e] px-6 py-2 rounded-full text-sm font-bold mb-8 border border-[#f03c2e]/20 tracking-wide"
         >
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#f03c2e] opacity-75"></span>
@@ -49,7 +76,7 @@ const Hero = () => {
         </motion.div>
         
         <motion.h1 
-          className="text-6xl md:text-8xl font-display font-black text-[#0b1c2e] mb-8 tracking-tighter max-w-5xl mx-auto leading-[1.1]"
+          className="text-5xl md:text-8xl font-display font-bold text-[#0b1c2e] mb-8 tracking-tighter max-w-5xl mx-auto leading-[1.1]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ staggerChildren: 0.1 }}
@@ -58,7 +85,7 @@ const Hero = () => {
         </motion.h1>
 
         <motion.p 
-          className="text-xl md:text-2xl text-[#2d3436]/80 max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
+          className="text-lg md:text-2xl text-[#2d3436]/80 max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
@@ -72,10 +99,10 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Link to="/model" className="bg-[#f03c2e] text-white px-10 py-5 rounded-full text-lg font-black shadow-xl shadow-[#f03c2e]/30 hover:shadow-2xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+          <Link to="/model" className="bg-[#f03c2e] text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-[#f03c2e]/30 hover:shadow-2xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
             Start Your Journey <ArrowRight size={20} />
           </Link>
-          <Link to="/impact" className="bg-white text-[#0b1c2e] border-2 border-[#0b1c2e] px-10 py-5 rounded-full text-lg font-black hover:bg-[#0b1c2e] hover:text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-[#0b1c2e]/5">
+          <Link to="/auth?role=investor" className="bg-white text-[#0b1c2e] border-2 border-[#0b1c2e] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#0b1c2e] hover:text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-[#0b1c2e]/5">
             Partner With Us
           </Link>
         </motion.div>
@@ -87,22 +114,22 @@ const Hero = () => {
           viewport={{ once: true }}
         >
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-mono font-black text-[#0b1c2e] mb-2 tracking-tighter">
+            <span className="text-4xl font-mono font-bold text-[#0b1c2e] mb-2 tracking-tighter">
               <AnimatedCounter value={350000} suffix="+" />
             </span>
-            <span className="text-[#2d3436]/60 font-black uppercase tracking-widest text-[10px]">Unorganized Schools</span>
+            <span className="text-[#2d3436]/60 font-bold uppercase tracking-widest text-[10px]">Unorganized Schools</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-mono font-black text-[#f03c2e] mb-2 tracking-tighter">
+            <span className="text-4xl font-mono font-bold text-[#f03c2e] mb-2 tracking-tighter">
               <AnimatedCounter value={37} suffix="Cr" />
             </span>
-            <span className="text-[#2d3436]/60 font-black uppercase tracking-widest text-[10px]">Population Pool</span>
+            <span className="text-[#2d3436]/60 font-bold uppercase tracking-widest text-[10px]">Population Pool</span>
           </div>
           <div className="flex flex-col items-center">
-            <span className="text-4xl font-mono font-black text-[#00b894] mb-2 tracking-tighter">
+            <span className="text-4xl font-mono font-bold text-[#00b894] mb-2 tracking-tighter">
               <AnimatedCounter value={1} suffix="Cr+" />
             </span>
-            <span className="text-[#2d3436]/60 font-black uppercase tracking-widest text-[10px]">Annual Students</span>
+            <span className="text-[#2d3436]/60 font-bold uppercase tracking-widest text-[10px]">Annual Students</span>
           </div>
         </motion.div>
       </div>
@@ -114,10 +141,10 @@ const ProblemSolution = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const problems = [
-    { icon: AlertTriangle, title: "School Gap", desc: "Schools lack competitive resources to train students for NEET/JEE locally." },
-    { icon: School, title: "Location Gap", desc: "Quality education restricted to hubs like Kota/Delhi, forcing migration." },
-    { icon: Users, title: "Quality Gap", desc: "Local tuition centers lack standardized pedagogy and expert mentors." },
-    { icon: Laptop, title: "Flexibility Gap", desc: "Strict schedules make it hard for students to balance school and prep." },
+    { icon: AlertTriangle, title: "School Gap", desc: "No competitive resources locally." },
+    { icon: School, title: "Location Gap", desc: "Forced migration to hubs." },
+    { icon: Users, title: "Quality Gap", desc: "Lack of expert mentorship." },
+    { icon: Laptop, title: "Flexibility Gap", desc: "Rigid balance of school/prep." },
   ];
 
   const solutions = [
@@ -127,37 +154,43 @@ const ProblemSolution = () => {
   ];
 
   return (
-    <section className="py-32 bg-white overflow-hidden">
+    <section className="py-24 md:py-32 bg-white overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
           <div>
-            <span className="text-[#f03c2e] font-black uppercase tracking-widest text-sm mb-4 block">The Context</span>
-            <h2 className="text-4xl md:text-5xl font-display font-black text-[#0b1c2e] mb-12 tracking-tight leading-tight">Breaking the Cycle of Educational Limitation</h2>
+            <span className="text-[#f03c2e] font-bold uppercase tracking-widest text-sm mb-4 block text-center lg:text-left">The Context</span>
+            <h2 className="text-4xl md:text-5xl font-display font-bold text-[#0b1c2e] mb-12 tracking-tight leading-tight text-center lg:text-left">Breaking the Cycle of Educational Limitation</h2>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* Redesigned 2x2 Problem Grid - Compact for Mobile */}
+            <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {problems.map((prob, i) => (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="p-8 rounded-3xl bg-[#faf8f5] border border-[#2d3436]/5 hover:shadow-2xl hover:shadow-[#2d3436]/5 transition-all group"
+                  className="p-5 sm:p-8 rounded-2xl sm:rounded-3xl bg-[#faf8f5] border border-[#2d3436]/5 hover:border-[#f03c2e]/20 hover:shadow-xl transition-all group relative overflow-hidden"
                 >
-                  <prob.icon className="text-[#f03c2e] mb-6 group-hover:scale-110 transition-transform" size={32} />
-                  <h4 className="font-display font-black text-xl mb-3 text-[#0b1c2e]">{prob.title}</h4>
-                  <p className="text-[#2d3436]/70 leading-relaxed font-medium">{prob.desc}</p>
+                  <div className="absolute top-0 right-0 w-16 h-16 bg-[#f03c2e]/5 rounded-bl-[2rem] group-hover:scale-110 transition-transform" />
+                  <div className="relative z-10">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-xl flex items-center justify-center shadow-sm mb-4 sm:mb-6 group-hover:bg-[#f03c2e] group-hover:text-white transition-all">
+                      <prob.icon className="text-[#f03c2e] group-hover:text-white transition-colors" size={20} />
+                    </div>
+                    <h4 className="font-display font-bold text-sm sm:text-xl mb-1 sm:mb-3 text-[#0b1c2e] leading-tight">{prob.title}</h4>
+                    <p className="text-[#2d3436]/70 leading-relaxed font-medium text-[10px] sm:text-base">{prob.desc}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
-          <div className="relative py-12 px-6 lg:px-12">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0b1c2e]/5 to-[#f03c2e]/5 rounded-[4rem] border border-[#0b1c2e]/5 -z-10" />
+          <div className="relative py-12 px-2 md:px-12">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0b1c2e]/5 to-[#f03c2e]/5 rounded-[3rem] md:rounded-[4rem] border border-[#0b1c2e]/5 -z-10" />
             
             <div className="relative z-10 grid gap-8">
-              <h3 className="text-2xl font-display font-black text-[#0b1c2e] mb-2 flex items-center gap-4">
-                <span className="w-16 h-1.5 bg-[#f03c2e] rounded-full"></span> The Triple-Threat Solution
+              <h3 className="text-2xl font-display font-bold text-[#0b1c2e] mb-2 flex items-center gap-4 justify-center lg:justify-start">
+                <span className="w-12 md:w-16 h-1.5 bg-[#f03c2e] rounded-full"></span> The Triple-Threat
               </h3>
               
               {solutions.map((sol, i) => (
@@ -173,13 +206,13 @@ const ProblemSolution = () => {
                   }}
                   whileHover={{ 
                     scale: 1.03, 
-                    x: 15,
+                    x: 10,
                     backgroundColor: "rgba(255,255,255,1)",
-                    boxShadow: "0 25px 50px -12px rgba(11, 28, 46, 0.25)"
+                    boxShadow: "0 25px 50px -12px rgba(11, 28, 46, 0.15)"
                   }}
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className={`flex gap-8 items-start p-10 rounded-[2.5rem] bg-white/95 backdrop-blur-sm shadow-2xl shadow-[#0b1c2e]/10 border-l-8 transition-all duration-300 group cursor-pointer
+                  className={`flex flex-col sm:flex-row gap-6 md:gap-8 items-center sm:items-start p-8 md:p-10 rounded-[2.5rem] bg-white/95 backdrop-blur-sm shadow-xl shadow-[#0b1c2e]/5 border-l-4 sm:border-l-8 transition-all duration-300 group cursor-pointer
                     ${hoveredIndex === i ? 'border-l-[#f03c2e]' : 'border-l-[#0b1c2e]'}
                     ${hoveredIndex !== null && hoveredIndex !== i ? 'opacity-50 grayscale-[0.5] scale-[0.98]' : 'opacity-100'}
                   `}
@@ -189,31 +222,20 @@ const ProblemSolution = () => {
                       rotate: hoveredIndex === i ? [0, -10, 10, 0] : 0,
                       scale: hoveredIndex === i ? 1.15 : 1
                     }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                    className={`w-16 h-16 shrink-0 rounded-2xl ${sol.color} flex items-center justify-center text-white shadow-lg`}
+                    className={`w-14 h-14 md:w-16 md:h-16 shrink-0 rounded-2xl ${sol.color} flex items-center justify-center text-white shadow-lg`}
                   >
                     <sol.icon size={28} />
                   </motion.div>
                   
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      <motion.span 
-                        animate={{ x: hoveredIndex === i ? 5 : 0 }}
-                        className="text-xs font-black text-[#f03c2e] uppercase tracking-widest"
-                      >
+                  <div className="flex-1 text-center sm:text-left">
+                    <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
+                      <span className="text-[10px] font-bold text-[#f03c2e] uppercase tracking-widest">
                         {sol.type}
-                      </motion.span>
+                      </span>
                     </div>
-                    <h4 className="text-2xl font-display font-black mb-3 text-[#0b1c2e] tracking-tight group-hover:text-[#f03c2e] transition-colors">{sol.title}</h4>
-                    <p className="text-[#2d3436]/70 font-medium text-lg leading-relaxed">{sol.desc}</p>
+                    <h4 className="text-xl md:text-2xl font-display font-bold mb-3 text-[#0b1c2e] tracking-tight group-hover:text-[#f03c2e] transition-colors">{sol.title}</h4>
+                    <p className="text-[#2d3436]/70 font-medium text-base md:text-lg leading-relaxed">{sol.desc}</p>
                   </div>
-                  
-                  <motion.div 
-                    animate={{ opacity: hoveredIndex === i ? 1 : 0, x: hoveredIndex === i ? 0 : -10 }}
-                    className="self-center text-[#f03c2e]"
-                  >
-                    <ArrowRight size={24} />
-                  </motion.div>
                 </motion.div>
               ))}
             </div>
@@ -226,19 +248,29 @@ const ProblemSolution = () => {
 
 const Philosophy = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isLocked, setIsLocked] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  // Unified spring for movement smoothness
-  const springConfig = { stiffness: 120, damping: 20, mass: 1 };
-  const rotateX = useSpring(useTransform(mouseY, [-250, 250], [isLocked ? 5 : 15, isLocked ? -5 : -15]), springConfig);
-  const rotateY = useSpring(useTransform(mouseX, [-250, 250], [isLocked ? -5 : -15, isLocked ? 5 : 15]), springConfig);
+  const springConfig = { stiffness: 100, damping: 30, mass: 1 };
+  const rotateX = useSpring(useTransform(mouseY, [-350, 350], [15, -15]), springConfig);
+  const rotateY = useSpring(useTransform(mouseX, [-350, 350], [-15, 15]), springConfig);
+  
+  const shadowX = useTransform(mouseX, [-350, 350], [30, -30]);
+  const shadowY = useTransform(mouseY, [-350, 350], [30, -30]);
+  const glareX = useTransform(mouseX, [-350, 350], [0, 100]);
+  const glareY = useTransform(mouseY, [-350, 350], [0, 100]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isMobile) return;
     const rect = containerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
@@ -247,20 +279,8 @@ const Philosophy = () => {
   };
 
   const handleMouseLeave = () => {
-    if (!isLocked) {
-      mouseX.set(0);
-      mouseY.set(0);
-    }
-  };
-
-  const handleTabSwitch = (i: number) => {
-    setActiveIndex(i);
-    setIsLocked(true);
-    // Smoothly reset tilt when switching
-    if (isLocked) {
-        mouseX.set(0);
-        mouseY.set(0);
-    }
+    mouseX.set(0);
+    mouseY.set(0);
   };
 
   const segments = [
@@ -271,7 +291,7 @@ const Philosophy = () => {
       icon: School, 
       color: "#0b1c2e", 
       tag: "STRATEGIC ASSET",
-      desc: "Revolutionizing local schools into competitive hubs. We remove the need for migration to Kota, bringing national-standard faculty directly to the student's classroom.",
+      desc: "Revolutionizing local schools into competitive hubs. We remove the need for migration to Kota.",
     },
     { 
       id: "alc",
@@ -280,7 +300,7 @@ const Philosophy = () => {
       icon: Users, 
       color: "#f03c2e", 
       tag: "NEIGHBORHOOD HUB",
-      desc: "Tech-enabled physical spaces for doubt clearing and focused self-study. Designed for the heartland, providing safety and community mentorship locally.",
+      desc: "Tech-enabled physical spaces for doubt clearing and focused self-study. Designed for safety.",
     },
     { 
       id: "digital",
@@ -289,139 +309,123 @@ const Philosophy = () => {
       icon: Laptop, 
       color: "#00b894", 
       tag: "PERSONALIZED AI",
-      desc: "Proprietary rank-forecasting and 'Weakness Hunter' algorithms that map every student's unique journey with precision data analytics.",
+      desc: "Proprietary rank-forecasting and Weakness Hunter algorithms tailored for Tier 2/3 pedagogy.",
     }
   ];
 
   return (
-    <section className="py-32 bg-[#faf8f5] overflow-hidden relative min-h-[1050px]">
-      <div className="container mx-auto px-6">
-        <div className="text-center mb-16 relative z-20">
-          <span className="text-[#f03c2e] font-black uppercase tracking-[0.4em] text-xs mb-4 block">Operating System</span>
-          <h2 className="text-5xl md:text-7xl font-display font-black text-[#0b1c2e] tracking-tighter">The 3D Ecosystem</h2>
-          
-          <div className="mt-12 max-w-2xl mx-auto p-2 bg-white rounded-full shadow-2xl border border-[#0b1c2e]/5 flex relative overflow-hidden">
-            <motion.div 
-              className="absolute inset-y-2 left-2 rounded-full z-0"
-              initial={false}
-              animate={{ 
-                x: activeIndex * 100 + "%", 
-                width: "calc(100% / 3 - 8px)", // Accounts for the left-2 padding
-                backgroundColor: segments[activeIndex].color 
-              }}
-              transition={{ type: "spring", stiffness: 350, damping: 35 }}
-            />
-            {segments.map((seg, i) => (
-              <button 
-                key={i}
-                onClick={() => handleTabSwitch(i)}
-                className={`relative z-10 flex-1 py-4 px-6 rounded-full text-sm font-black transition-colors duration-300 flex items-center justify-center gap-2 ${activeIndex === i ? 'text-white' : 'text-[#0b1c2e]/40 hover:text-[#0b1c2e]'}`}
-              >
-                <seg.icon size={18} />
-                <span className="hidden sm:inline uppercase tracking-widest">{seg.short}</span>
-              </button>
-            ))}
-          </div>
+    <section className="py-24 md:py-32 bg-[#faf8f5] overflow-hidden relative min-h-[850px] md:min-h-[1100px]">
+      <div className="container mx-auto px-4 md:px-6">
+        <div className="text-center mb-16 md:mb-12 relative z-30">
+          <span className="text-[#f03c2e] font-bold uppercase tracking-[0.4em] text-[10px] md:text-xs mb-4 block">Unified Ecosystem</span>
+          <h2 className="text-5xl md:text-8xl font-display font-bold text-[#0b1c2e] tracking-tighter">The AcadUp OS</h2>
         </div>
 
         <div 
           ref={containerRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className={`relative h-[650px] w-full flex items-center justify-center [perspective:2000px] ${isLocked ? 'cursor-default' : 'cursor-none'}`}
+          className="relative h-[450px] md:h-[650px] w-full flex items-center justify-center [perspective:2000px] md:[perspective:3000px]"
         >
-          <AnimatePresence>
-            {!isLocked && (
-              <motion.div 
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0 }}
-                style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
-                className="absolute w-12 h-12 rounded-full border-2 border-[#f03c2e] pointer-events-none z-[100] mix-blend-difference hidden lg:flex items-center justify-center"
-              >
-                <div className="w-1 h-1 bg-[#f03c2e] rounded-full" />
-              </motion.div>
-            )}
-          </AnimatePresence>
-          
-          <motion.div 
-            style={{ rotateX: 75, translateZ: -200, rotateY: rotateY, x: '-50%', y: '-50%' }}
-            className="absolute top-1/2 left-1/2 w-[140%] h-[140%] pointer-events-none opacity-10"
-          >
-            <div className="w-full h-full bg-[linear-gradient(rgba(11,28,46,0.15)_2px,transparent_2px),linear-gradient(90deg,rgba(11,28,46,0.15)_2px,transparent_2px)] bg-[size:60px_60px]" />
-          </motion.div>
+          {!isMobile && (
+            <motion.div 
+              style={{ rotateX: 75, translateZ: -400, opacity: 0.1 }}
+              className="absolute inset-0 pointer-events-none"
+            >
+              <div className="w-full h-full bg-[linear-gradient(rgba(11,28,46,0.3)_2px,transparent_2px),linear-gradient(90deg,rgba(11,28,46,0.3)_2px,transparent_2px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
+            </motion.div>
+          )}
 
           <div className="relative w-full max-w-5xl h-full flex items-center justify-center [transform-style:preserve-3d]">
             {segments.map((seg, i) => {
               const isActive = activeIndex === i;
               const offset = i - activeIndex;
-              // Crucial for depth - Active card must always have higher zIndex than background cards
-              const zIndex = isActive ? 50 : 20 - Math.abs(offset);
+              const zIndex = isActive ? 100 : 50 - Math.abs(offset) * 10;
               
               return (
                 <motion.div
                   key={seg.id}
                   initial={false}
                   animate={{
-                    x: offset * 340,
-                    z: isActive ? 250 : -400,
-                    rotateY: isActive ? 0 : (offset * -25),
-                    scale: isActive ? 1.15 : 0.8,
-                    opacity: isActive ? 1 : 0.4,
+                    x: isMobile ? offset * 250 : offset * 380,
+                    z: isActive ? (isMobile ? 350 : 450) : -600,
+                    rotateY: isActive ? 0 : (offset * -35),
+                    scale: isActive ? (isMobile ? 1.1 : 1.25) : (isMobile ? 0.75 : 0.75),
+                    opacity: isActive ? 1 : (isMobile ? 0.3 : 0.2),
                   }}
                   style={{ 
                     rotateX: isActive ? rotateX : 0, 
-                    rotateY: isActive ? rotateY : (offset * -25),
+                    rotateY: isActive ? rotateY : (offset * -35),
                     backgroundColor: seg.color,
                     zIndex: zIndex
                   }}
                   transition={springConfig}
-                  className={`absolute w-85 h-[500px] cursor-pointer rounded-[3.5rem] shadow-2xl flex flex-col items-center justify-between p-12 text-center border-4 border-white overflow-hidden [transform-style:preserve-3d] group transition-shadow ${isActive && isLocked ? 'ring-8 ring-[#f03c2e]/10 shadow-[0_0_50px_rgba(240,60,46,0.2)]' : ''}`}
-                  onClick={() => handleTabSwitch(i)}
+                  className={`absolute w-[280px] md:w-[400px] h-[400px] md:h-[520px] cursor-pointer rounded-[3rem] md:rounded-[4rem] flex flex-col items-center justify-between p-8 md:p-12 text-center border-[6px] md:border-[8px] border-white/95 overflow-hidden [transform-style:preserve-3d] transition-shadow shadow-2xl shadow-black/20`}
+                  onClick={() => setActiveIndex(i)}
                 >
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/15 to-transparent pointer-events-none" />
-                  <motion.div style={{ translateZ: 20 }} className="absolute top-0 left-0 w-full h-2 bg-white/10" />
-
-                  <motion.div style={{ translateZ: isActive ? 80 : 20 }} className="flex flex-col items-center gap-8">
+                  {isActive && !isMobile && (
                     <motion.div 
-                      animate={{ rotate: isActive ? [0, -5, 5, 0] : 0 }}
-                      transition={{ duration: 4, repeat: Infinity }}
-                      className="p-7 rounded-[2rem] bg-white/15 backdrop-blur-xl border border-white/20 shadow-2xl"
+                      style={{ x: shadowX, y: shadowY, translateZ: -100, filter: 'blur(40px)' }}
+                      className="absolute inset-0 bg-black/40 rounded-[4.5rem] -z-10 scale-90"
+                    />
+                  )}
+
+                  {isActive && !isMobile && (
+                    <motion.div 
+                      style={{ 
+                        background: useTransform([glareX, glareY], ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.3) 0%, transparent 70%)`)
+                      }}
+                      className="absolute inset-0 pointer-events-none z-20"
+                    />
+                  )}
+
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none z-0" />
+
+                  <motion.div 
+                    style={{ translateZ: isActive ? (isMobile ? 80 : 150) : 30 }} 
+                    className="flex flex-col items-center gap-4 md:gap-8 relative z-30"
+                  >
+                    <motion.div 
+                      animate={{ y: isActive ? [0, -6, 0] : 0 }}
+                      className="p-4 md:p-7 rounded-[1.5rem] md:rounded-[2.5rem] bg-white/20 backdrop-blur-3xl border border-white/40 shadow-xl"
                     >
-                      <seg.icon size={60} className="text-white" />
+                      <seg.icon size={isMobile ? 48 : 64} className="text-white drop-shadow-2xl" />
                     </motion.div>
-                    <div>
-                      <span className="text-[11px] font-black tracking-[0.4em] text-white/40 uppercase mb-3 block">{seg.tag}</span>
-                      <h3 className="text-white font-black text-4xl leading-tight tracking-tighter">{seg.title}</h3>
+                    <div className="[transform-style:preserve-3d]">
+                      <span className="text-[8px] md:text-[9px] font-bold tracking-[0.4em] text-white/60 uppercase mb-2 md:mb-3 block">{seg.tag}</span>
+                      <h3 className="text-white font-display font-bold text-2xl md:text-4xl leading-tight tracking-tighter drop-shadow-2xl">
+                        {seg.title}
+                      </h3>
                     </div>
                   </motion.div>
 
-                  <motion.div style={{ translateZ: isActive ? 40 : 10 }} className="w-full">
+                  <motion.div style={{ translateZ: isActive ? (isMobile ? 60 : 100) : 15 }} className="w-full relative z-30">
                     <AnimatePresence mode="wait">
                       {isActive && (
                         <motion.div
                           key={seg.id}
-                          initial={{ opacity: 0, y: 30, translateZ: 0 }}
-                          animate={{ opacity: 1, y: 0, translateZ: 20 }}
-                          exit={{ opacity: 0, y: 20 }}
-                          transition={{ duration: 0.4 }}
+                          initial={{ opacity: 0, y: 30 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 15 }}
                         >
-                          <p className="text-white/70 text-base leading-relaxed font-medium mb-10 max-w-[240px] mx-auto">
+                          <p className="text-white/85 text-xs md:text-lg leading-relaxed font-medium mb-6 md:mb-10 max-w-[220px] md:max-w-[320px] mx-auto">
                             {seg.desc}
                           </p>
                           <Link 
                             to="/model" 
-                            onClick={(e) => isLocked && e.stopPropagation()}
-                            className="bg-white text-[#0b1c2e] px-10 py-4 rounded-full text-xs font-black uppercase tracking-widest hover:scale-110 active:scale-95 transition-all flex items-center justify-center gap-3 mx-auto"
+                            className="bg-white text-[#0b1c2e] px-6 md:px-12 py-3 md:py-5 rounded-full text-[9px] md:text-sm font-bold uppercase tracking-widest hover:scale-110 active:scale-95 transition-all flex items-center justify-center gap-2 md:gap-4 mx-auto shadow-2xl"
                           >
-                            Explore Model <ArrowRight size={16} />
+                            Explore <ArrowRight size={isMobile ? 12 : 16} />
                           </Link>
                         </motion.div>
                       )}
                     </AnimatePresence>
                   </motion.div>
 
-                  <motion.div style={{ translateZ: -50 }} className="absolute bottom-6 right-8 text-8xl font-black text-white/5 select-none tracking-tighter">
+                  <motion.div 
+                    style={{ translateZ: -100 }} 
+                    className="absolute bottom-4 md:bottom-8 right-4 md:right-8 text-[6rem] md:text-[12rem] font-bold text-white/5 select-none tracking-tighter leading-none pointer-events-none"
+                  >
                     0{i + 1}
                   </motion.div>
                 </motion.div>
@@ -429,6 +433,160 @@ const Philosophy = () => {
             })}
           </div>
         </div>
+
+        <div className="mt-16 md:mt-24 relative z-30">
+          <div className="max-w-sm md:max-w-2xl mx-auto p-1.5 md:p-2 bg-white rounded-full shadow-xl border border-black/5 flex relative overflow-hidden">
+            <motion.div 
+              className="absolute inset-y-1.5 md:inset-y-2 left-1.5 md:left-2 rounded-full z-0"
+              initial={false}
+              animate={{ 
+                x: activeIndex * 100 + "%", 
+                width: "calc(100% / 3 - 6px)", 
+                backgroundColor: segments[activeIndex].color 
+              }}
+              transition={{ type: "spring", stiffness: 350, damping: 35 }}
+            />
+            {segments.map((seg, i) => (
+              <button 
+                key={i}
+                onClick={() => setActiveIndex(i)}
+                className={`relative z-10 flex-1 py-3 md:py-4 px-3 md:px-6 rounded-full text-[10px] md:text-sm font-bold transition-colors duration-300 flex items-center justify-center gap-2 ${activeIndex === i ? 'text-white' : 'text-[#0b1c2e]/40 hover:text-[#0b1c2e]'}`}
+              >
+                <seg.icon size={isMobile ? 14 : 18} />
+                <span className="uppercase tracking-widest">{seg.short}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const AIPromotionBanner = () => {
+  return (
+    <section className="py-24 relative overflow-hidden group">
+      <div className="container mx-auto px-6">
+        <motion.div 
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="relative bg-[#0b1c2e] rounded-[3rem] md:rounded-[4rem] p-10 md:p-20 overflow-hidden shadow-[0_50px_100px_-20px_rgba(11,28,46,0.3)] border border-white/5"
+        >
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+              className="absolute -top-1/2 -left-1/4 w-full h-full border border-white/10 rounded-full" 
+            />
+            <motion.div 
+              animate={{ rotate: -360 }}
+              transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+              className="absolute -bottom-1/2 -right-1/4 w-full h-full border border-[#f03c2e]/20 rounded-full" 
+            />
+          </div>
+
+          <div className="flex flex-col lg:flex-row items-center gap-16 relative z-10">
+            <div className="flex-1 text-center lg:text-left">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-3 bg-[#f03c2e]/10 border border-[#f03c2e]/20 px-6 py-2 rounded-full mb-8"
+              >
+                <Sparkles size={16} className="text-[#f03c2e]" />
+                <span className="text-white text-[10px] font-bold uppercase tracking-[0.3em]">AI-Powered Pedagogy</span>
+              </motion.div>
+              
+              <h2 className="text-4xl md:text-7xl font-display font-bold text-white mb-8 tracking-tighter leading-[0.95]">
+                Stuck on a <span className="text-[#f03c2e]">Doubt</span>? <br />
+                Ask Your AI Mentor.
+              </h2>
+              
+              <p className="text-lg md:text-xl text-white/60 font-medium leading-relaxed mb-12 max-w-xl">
+                Get instant, verified solutions for JEE, NEET, and Boards. Our AI engine doesn't just give answers—it builds concepts.
+              </p>
+
+              <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
+                <Link to="/studio">
+                  <motion.button 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="bg-white text-[#0b1c2e] px-12 py-6 rounded-[2rem] font-bold text-sm uppercase tracking-widest flex items-center gap-3 shadow-2xl hover:bg-[#f03c2e] hover:text-white transition-all group/btn"
+                  >
+                    <Brain size={20} className="group-hover/btn:animate-pulse" /> Try AI Studio Now
+                  </motion.button>
+                </Link>
+                
+                <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div className="flex -space-x-2">
+                    {[1, 2, 3].map(i => (
+                      <div key={i} className="w-8 h-8 rounded-full bg-white/10 border-2 border-[#0b1c2e] flex items-center justify-center text-[10px] font-bold text-white">
+                        <Users size={12} />
+                      </div>
+                    ))}
+                  </div>
+                  <span className="text-white/40 text-[9px] font-bold uppercase tracking-[0.2em]">Used by 10k+ Daily</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Visual Part of the Banner */}
+            <div className="flex-1 relative">
+              <motion.div 
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[4rem] p-10 md:p-14 shadow-3xl"
+              >
+                <div className="space-y-6">
+                  <div className="flex gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-[#f03c2e] flex items-center justify-center text-white">
+                      <MessageSquare size={24} />
+                    </div>
+                    <div className="flex-1 space-y-2">
+                      <div className="h-4 w-3/4 bg-white/10 rounded-full" />
+                      <div className="h-4 w-1/2 bg-white/5 rounded-full" />
+                    </div>
+                  </div>
+                  
+                  <div className="p-6 bg-white/5 rounded-3xl border border-white/5 space-y-4">
+                    <div className="flex items-center gap-3">
+                      <Bot className="text-[#00b894]" size={20} />
+                      <span className="text-[10px] font-bold text-[#00b894] uppercase tracking-widest">AcadUp AI Brain</span>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="h-3 w-full bg-[#00b894]/10 rounded-full" />
+                      <div className="h-3 w-5/6 bg-[#00b894]/5 rounded-full" />
+                      <div className="h-3 w-4/6 bg-[#00b894]/5 rounded-full" />
+                    </div>
+                    <div className="pt-4">
+                      <div className="w-full aspect-video bg-white/5 rounded-2xl flex items-center justify-center border border-white/5">
+                        <Zap size={24} className="text-white/20 animate-pulse" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Floating Elements */}
+                <motion.div 
+                  animate={{ rotate: [0, 10, -10, 0] }}
+                  transition={{ duration: 8, repeat: Infinity }}
+                  className="absolute -top-10 -right-10 w-24 h-24 bg-[#00b894] rounded-3xl flex items-center justify-center shadow-2xl z-20"
+                >
+                  <CheckCircle className="text-white" size={32} />
+                </motion.div>
+                
+                <motion.div 
+                  animate={{ scale: [1, 1.2, 1] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#f03c2e] rounded-2xl flex items-center justify-center shadow-2xl z-20"
+                >
+                  <Sparkles className="text-white" size={24} />
+                </motion.div>
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -440,26 +598,48 @@ export const Home = () => {
       <Hero />
       <ProblemSolution />
       <Philosophy />
-      <section className="py-24 bg-[#0b1c2e] mt-24">
+      
+      <AIPromotionBanner />
+
+      <section className="py-24 bg-[#0b1c2e]">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 text-center">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 text-center">
             <div>
-              <h3 className="text-6xl font-mono font-black text-white mb-3 tracking-tighter">95k</h3>
-              <p className="text-white/60 font-black text-sm uppercase tracking-widest">Unorganized Schools</p>
+              <h3 className="text-4xl md:text-6xl font-mono font-bold text-white mb-3 tracking-tighter">95k</h3>
+              <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest">Schools</p>
             </div>
             <div>
-              <h3 className="text-6xl font-mono font-black text-[#f03c2e] mb-3 tracking-tighter">₹70Cr+</h3>
-              <p className="text-white/60 font-black text-sm uppercase tracking-widest">Revenue Potential</p>
+              <h3 className="text-4xl md:text-6xl font-mono font-bold text-[#f03c2e] mb-3 tracking-tighter">₹70Cr</h3>
+              <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest">Revenue</p>
             </div>
             <div>
-              <h3 className="text-6xl font-mono font-black text-[#00b894] mb-3 tracking-tighter">24k</h3>
-              <p className="text-white/60 font-black text-sm uppercase tracking-widest">High-Value Targets</p>
+              <h3 className="text-4xl md:text-6xl font-mono font-bold text-[#00b894] mb-3 tracking-tighter">24k</h3>
+              <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest">High Value</p>
             </div>
             <div>
-              <h3 className="text-6xl font-mono font-black text-white mb-3 tracking-tighter">40%</h3>
-              <p className="text-white/60 font-black text-sm uppercase tracking-widest">Cost Savings vs Kota</p>
+              <h3 className="text-4xl md:text-6xl font-mono font-bold text-white mb-3 tracking-tighter">40%</h3>
+              <p className="text-white/60 font-bold text-[10px] uppercase tracking-widest">Savings</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="py-24 md:py-48 bg-white text-center">
+        <div className="container mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto"
+          >
+            <h2 className="text-4xl md:text-7xl font-display font-bold text-[#0b1c2e] mb-12 tracking-tighter leading-tight">
+              A Future Designed <br /> for <span className="text-[#f03c2e]">Bharat</span>.
+            </h2>
+            <div className="w-24 h-2 bg-[#0b1c2e] mx-auto rounded-full mb-12" />
+            <p className="text-xl md:text-3xl text-[#2d3436]/40 font-medium leading-relaxed italic">
+              "We aren't just building a company; we are building the intellectual backbone of India's most underserved regions."
+            </p>
+          </motion.div>
         </div>
       </section>
     </div>

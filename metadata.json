@@ -1,5 +1,8 @@
 {
   "name": "AcadUp - Revolutionary EdTech for Tier-2/3 India",
   "description": "A high-performance, animated 3-page website for AcadUp, an EdTech startup transforming education in UP & Bihar through School Integration, Learning Centers, and Digital platforms.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
 }

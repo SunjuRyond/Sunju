@@ -1,0 +1,22 @@
+{
+  "name": "AcadUp | Education Without Borders",
+  "short_name": "AcadUp",
+  "description": "Revolutionizing education in Tier-2 and Tier-3 India.",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#faf8f5",
+  "theme_color": "#0b1c2e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://img.icons8.com/fluency/192/000000/education.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "https://img.icons8.com/fluency/512/000000/education.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
