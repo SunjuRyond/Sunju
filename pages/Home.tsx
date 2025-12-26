@@ -161,7 +161,6 @@ const ProblemSolution = () => {
             <span className="text-[#f03c2e] font-bold uppercase tracking-widest text-sm mb-4 block text-center lg:text-left">The Context</span>
             <h2 className="text-4xl md:text-5xl font-display font-bold text-[#0b1c2e] mb-12 tracking-tight leading-tight text-center lg:text-left">Breaking the Cycle of Educational Limitation</h2>
             
-            {/* Redesigned 2x2 Problem Grid - Compact for Mobile */}
             <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {problems.map((prob, i) => (
                 <motion.div 
@@ -185,12 +184,12 @@ const ProblemSolution = () => {
             </div>
           </div>
 
-          <div className="relative py-12 px-2 md:px-12">
-            <div className="absolute inset-0 bg-gradient-to-br from-[#0b1c2e]/5 to-[#f03c2e]/5 rounded-[3rem] md:rounded-[4rem] border border-[#0b1c2e]/5 -z-10" />
+          <div className="relative py-8 md:py-12 px-2 md:px-12">
+            <div className="absolute inset-0 bg-gradient-to-br from-[#0b1c2e]/5 to-[#f03c2e]/5 rounded-[2.5rem] md:rounded-[4rem] border border-[#0b1c2e]/5 -z-10" />
             
-            <div className="relative z-10 grid gap-8">
-              <h3 className="text-2xl font-display font-bold text-[#0b1c2e] mb-2 flex items-center gap-4 justify-center lg:justify-start">
-                <span className="w-12 md:w-16 h-1.5 bg-[#f03c2e] rounded-full"></span> The Triple-Threat
+            <div className="relative z-10 grid gap-3 md:gap-6">
+              <h3 className="text-xl md:text-2xl font-display font-bold text-[#0b1c2e] mb-4 flex items-center gap-3 justify-center lg:justify-start">
+                <span className="w-8 md:w-16 h-1 bg-[#f03c2e] rounded-full"></span> The Triple-Threat
               </h3>
               
               {solutions.map((sol, i) => (
@@ -205,36 +204,40 @@ const ProblemSolution = () => {
                     stiffness: 100
                   }}
                   whileHover={{ 
-                    scale: 1.03, 
-                    x: 10,
+                    x: 8,
                     backgroundColor: "rgba(255,255,255,1)",
-                    boxShadow: "0 25px 50px -12px rgba(11, 28, 46, 0.15)"
+                    boxShadow: "0 10px 30px -10px rgba(11, 28, 46, 0.1)"
                   }}
                   onMouseEnter={() => setHoveredIndex(i)}
                   onMouseLeave={() => setHoveredIndex(null)}
-                  className={`flex flex-col sm:flex-row gap-6 md:gap-8 items-center sm:items-start p-8 md:p-10 rounded-[2.5rem] bg-white/95 backdrop-blur-sm shadow-xl shadow-[#0b1c2e]/5 border-l-4 sm:border-l-8 transition-all duration-300 group cursor-pointer
+                  className={`flex items-center gap-4 md:gap-6 p-4 md:p-8 rounded-2xl md:rounded-[2.5rem] bg-white/95 backdrop-blur-sm shadow-md md:shadow-xl shadow-[#0b1c2e]/5 border-l-[3px] md:border-l-8 transition-all duration-300 group cursor-pointer
                     ${hoveredIndex === i ? 'border-l-[#f03c2e]' : 'border-l-[#0b1c2e]'}
-                    ${hoveredIndex !== null && hoveredIndex !== i ? 'opacity-50 grayscale-[0.5] scale-[0.98]' : 'opacity-100'}
+                    ${hoveredIndex !== null && hoveredIndex !== i ? 'opacity-50 grayscale-[0.3] scale-[0.98]' : 'opacity-100'}
                   `}
                 >
                   <motion.div 
                     animate={{ 
-                      rotate: hoveredIndex === i ? [0, -10, 10, 0] : 0,
-                      scale: hoveredIndex === i ? 1.15 : 1
+                      scale: hoveredIndex === i ? 1.1 : 1
                     }}
-                    className={`w-14 h-14 md:w-16 md:h-16 shrink-0 rounded-2xl ${sol.color} flex items-center justify-center text-white shadow-lg`}
+                    className={`w-10 h-10 md:w-14 md:h-14 shrink-0 rounded-xl md:rounded-2xl ${sol.color} flex items-center justify-center text-white shadow-lg`}
                   >
-                    <sol.icon size={28} />
+                    <sol.icon size={18} className="md:w-7 md:h-7" />
                   </motion.div>
                   
-                  <div className="flex-1 text-center sm:text-left">
-                    <div className="flex items-center justify-center sm:justify-start gap-2 mb-2">
-                      <span className="text-[10px] font-bold text-[#f03c2e] uppercase tracking-widest">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-0.5 md:mb-1">
+                      <span className="text-[7px] md:text-[9px] font-bold text-[#f03c2e] uppercase tracking-widest">
                         {sol.type}
                       </span>
                     </div>
-                    <h4 className="text-xl md:text-2xl font-display font-bold mb-3 text-[#0b1c2e] tracking-tight group-hover:text-[#f03c2e] transition-colors">{sol.title}</h4>
-                    <p className="text-[#2d3436]/70 font-medium text-base md:text-lg leading-relaxed">{sol.desc}</p>
+                    <h4 className="text-sm md:text-xl font-display font-bold text-[#0b1c2e] tracking-tight group-hover:text-[#f03c2e] transition-colors">{sol.title}</h4>
+                    <p className="text-[#2d3436]/70 font-medium text-[10px] md:text-base leading-tight md:leading-relaxed line-clamp-2 md:line-clamp-none">
+                      {sol.desc}
+                    </p>
+                  </div>
+                  
+                  <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">
+                    <ArrowRight size={16} className="text-[#0b1c2e]/20" />
                   </div>
                 </motion.div>
               ))}
@@ -473,7 +476,6 @@ const AIPromotionBanner = () => {
           viewport={{ once: true }}
           className="relative bg-[#0b1c2e] rounded-[3rem] md:rounded-[4rem] p-10 md:p-20 overflow-hidden shadow-[0_50px_100px_-20px_rgba(11,28,46,0.3)] border border-white/5"
         >
-          {/* Animated Background Elements */}
           <div className="absolute inset-0 opacity-20 pointer-events-none">
             <motion.div 
               animate={{ rotate: 360 }}
@@ -531,7 +533,6 @@ const AIPromotionBanner = () => {
               </div>
             </div>
 
-            {/* Visual Part of the Banner */}
             <div className="flex-1 relative">
               <motion.div 
                 animate={{ y: [0, -20, 0] }}
@@ -567,7 +568,6 @@ const AIPromotionBanner = () => {
                   </div>
                 </div>
 
-                {/* Floating Elements */}
                 <motion.div 
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 8, repeat: Infinity }}
