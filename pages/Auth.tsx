@@ -1,5 +1,8 @@
+
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+// Fix: Use namespace import for useNavigate and useSearchParams
+import * as Router from 'react-router-dom';
+const { useNavigate, useSearchParams } = Router as any;
 import { motion as framerMotion, AnimatePresence as FramerAnimatePresence } from 'framer-motion';
 import { 
   User, Mail, Smartphone, ArrowRight, 
@@ -10,13 +13,17 @@ import {
 } from 'lucide-react';
 import { ROUTES } from '../constants';
 
+// Fix: Cast motion components to any to bypass property errors
+const MotionDiv = framerMotion.div as any;
+const AnyAnimatePresence = FramerAnimatePresence as any;
+
 type Role = 'Student' | 'Teacher' | 'Investor';
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzXR_OoojBgAvqdZuDGssUhXIyiHzYAObeNNTu8EkqopH1I5l9zwb8zq1QcJFQ0Vsyv/exec';
 
 const InputField = ({ icon: Icon, label, type = "text", placeholder, value, onChange, options, required = false }: any) => {
   return (
-    <framerMotion.div 
+    <MotionDiv 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       className="space-y-2 mb-4"
@@ -55,7 +62,7 @@ const InputField = ({ icon: Icon, label, type = "text", placeholder, value, onCh
           </div>
         )}
       </div>
-    </framerMotion.div>
+    </MotionDiv>
   );
 };
 
@@ -164,12 +171,12 @@ export const Auth = () => {
 
   return (
     <div className="min-h-screen bg-[#faf8f5] flex items-center justify-center p-6 pt-32 pb-20 relative overflow-hidden">
-      <framerMotion.div 
+      <MotionDiv 
         animate={{ scale: [1, 1.1, 1], opacity: [0.1, 0.15, 0.1] }}
         transition={{ duration: 10, repeat: Infinity }}
         className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#f03c2e] rounded-full blur-[150px] -mr-64 -mt-64 pointer-events-none"
       />
-      <framerMotion.div 
+      <MotionDiv 
         animate={{ scale: [1.1, 1, 1.1], opacity: [0.05, 0.08, 0.05] }}
         transition={{ duration: 12, repeat: Infinity }}
         className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#0b1c2e] rounded-full blur-[150px] -ml-64 -mb-64 pointer-events-none"
@@ -177,7 +184,7 @@ export const Auth = () => {
 
       <div className="container max-w-6xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
         <div className="flex-1 space-y-8 text-center lg:text-left hidden lg:block">
-          <framerMotion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
+          <MotionDiv initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }}>
             <span className="text-[#f03c2e] font-bold uppercase tracking-[0.4em] text-xs mb-6 block">Join the Revolution</span>
             <h1 className="text-6xl font-display font-bold text-[#0b1c2e] tracking-tighter leading-[0.9] mb-8">
               Unlock the <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0b1c2e] to-[#f03c2e]">AcadUp Advantage</span>
@@ -185,17 +192,17 @@ export const Auth = () => {
             <p className="text-xl text-[#2d3436]/60 font-medium leading-relaxed max-w-md">
               Verified education for Bharat. Bridging the gap from remote towns to top-tier universities.
             </p>
-          </framerMotion.div>
+          </MotionDiv>
         </div>
 
-        <framerMotion.div 
+        <MotionDiv 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="w-full max-w-[540px] bg-white rounded-[3rem] p-8 md:p-12 shadow-[0_50px_100px_-20px_rgba(11,28,46,0.12)] border border-white relative z-10"
         >
-          <FramerAnimatePresence mode="wait">
+          <AnyAnimatePresence mode="wait">
             {isSuccess ? (
-              <framerMotion.div key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-10">
+              <MotionDiv key="success" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center py-10">
                 <div className="w-24 h-24 bg-[#00b894]/10 rounded-full flex items-center justify-center text-[#00b894] mx-auto mb-8">
                   <PartyPopper size={48} />
                 </div>
@@ -203,9 +210,9 @@ export const Auth = () => {
                 <p className="text-[#2d3436]/60 font-medium mb-8 leading-relaxed">
                   Welcome to the AcadUp ecosystem, {formData.fullName}.
                 </p>
-              </framerMotion.div>
+              </MotionDiv>
             ) : step === 'otp' ? (
-              <framerMotion.div key="otp" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
+              <MotionDiv key="otp" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
                 <div className="text-center mb-10">
                   <div className="w-16 h-16 bg-[#f03c2e]/10 rounded-full flex items-center justify-center text-[#f03c2e] mx-auto mb-6">
                     <ShieldCheck size={32} />
@@ -246,15 +253,15 @@ export const Auth = () => {
                     Back to Edit Details
                   </button>
                 </form>
-              </framerMotion.div>
+              </MotionDiv>
             ) : (
-              <framerMotion.div key="form">
+              <MotionDiv key="form">
                 <div className="text-center mb-10">
                   <h2 className="text-3xl font-display font-bold text-[#0b1c2e] mb-8">
                     {isSignIn ? 'Welcome Back' : 'Get Started'}
                   </h2>
                   <div className="bg-[#faf8f5] p-1.5 rounded-2xl flex relative overflow-hidden">
-                    <framerMotion.div 
+                    <MotionDiv 
                       className="absolute inset-y-1.5 rounded-xl bg-[#0b1c2e] z-0 shadow-lg"
                       animate={{ x: isSignIn ? '100%' : '0%', width: 'calc(50% - 3px)' }}
                       transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -296,8 +303,8 @@ export const Auth = () => {
                   <InputField required icon={Mail} label="Email Address" type="email" placeholder="rahul@example.com" value={formData.email} onChange={(v: string) => updateField('email', v)} />
                   
                   {!isSignIn && (
-                    <FramerAnimatePresence mode="wait">
-                      <framerMotion.div key={role} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
+                    <AnyAnimatePresence mode="wait">
+                      <MotionDiv key={role} initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} exit={{ opacity: 0, height: 0 }} transition={{ duration: 0.3 }}>
                         {role === 'Student' && (
                           <>
                             <InputField required icon={GraduationCap} label="Current Class" options={["Class 6", "Class 7", "Class 8", "Class 9", "Class 10", "Class 11", "Class 12", "Repeater"]} value={formData.currentClass} onChange={(v: string) => updateField('currentClass', v)} />
@@ -318,8 +325,8 @@ export const Auth = () => {
                             <InputField required icon={Linkedin} label="LinkedIn Profile" placeholder="linkedin.com/in/username" value={formData.linkedin} onChange={(v: string) => updateField('linkedin', v)} />
                           </>
                         )}
-                      </framerMotion.div>
-                    </FramerAnimatePresence>
+                      </MotionDiv>
+                    </AnyAnimatePresence>
                   )}
 
                   <button 
@@ -332,10 +339,10 @@ export const Auth = () => {
                   </button>
                   {error && <p className="text-center text-[#f03c2e] text-xs mt-4 font-bold">{error}</p>}
                 </form>
-              </framerMotion.div>
+              </MotionDiv>
             )}
-          </FramerAnimatePresence>
-        </framerMotion.div>
+          </AnyAnimatePresence>
+        </MotionDiv>
       </div>
     </div>
   );

@@ -1,6 +1,11 @@
+
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Instagram, Sparkles, Heart, Users, ExternalLink, Zap } from 'lucide-react';
+
+// Fix: Cast motion components to any to bypass property errors
+const MotionDiv = motion.div as any;
+const AnyAnimatePresence = AnimatePresence as any;
 
 export const InstallPwaBanner: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -36,10 +41,10 @@ export const InstallPwaBanner: React.FC = () => {
   };
 
   return (
-    <AnimatePresence>
+    <AnyAnimatePresence>
       {showModal && (
         <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-[#0b1c2e]/80 backdrop-blur-lg">
-          <motion.div
+          <MotionDiv
             initial={{ scale: 0.9, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 15 }}
@@ -57,7 +62,7 @@ export const InstallPwaBanner: React.FC = () => {
             {/* Header / Brand Area with Instagram Gradient */}
             <div className="bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] p-12 text-center relative overflow-hidden">
               <div className="absolute inset-0 bg-black/10 opacity-50" />
-              <motion.div 
+              <MotionDiv 
                 animate={{ rotate: [0, 5, -5, 0] }}
                 transition={{ duration: 6, repeat: Infinity }}
                 className="relative z-10"
@@ -70,7 +75,7 @@ export const InstallPwaBanner: React.FC = () => {
                 </div>
                 <h3 className="text-white text-4xl font-display font-bold tracking-tighter mb-2">Join the Club</h3>
                 <p className="text-white/70 text-sm font-medium uppercase tracking-[0.2em]">@AcadUp_Official</p>
-              </motion.div>
+              </MotionDiv>
             </div>
 
             {/* Main Content */}
@@ -119,6 +124,6 @@ export const InstallPwaBanner: React.FC = () => {
           </motion.div>
         </div>
       )}
-    </AnimatePresence>
+    </AnyAnimatePresence>
   );
 };

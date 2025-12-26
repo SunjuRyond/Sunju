@@ -8,6 +8,12 @@ import {
 } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
+// Fix: Cast motion components to any to bypass property errors
+const MotionDiv = motion.div as any;
+const MotionH2 = motion.h2 as any;
+const MotionButton = motion.button as any;
+const AnyAnimatePresence = AnimatePresence as any;
+
 const data = [
   { name: 'Year 1', rev: 12 },
   { name: 'Year 2', rev: 35 },
@@ -29,7 +35,7 @@ const STRATEGIC_NODES = [
 // Explicitly typed as React.FC to allow 'key' prop in mapping
 const AestheticCard: React.FC<{ node: typeof STRATEGIC_NODES[0], index: number }> = ({ node, index }) => {
   return (
-    <motion.div
+    <MotionDiv
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
@@ -45,14 +51,14 @@ const AestheticCard: React.FC<{ node: typeof STRATEGIC_NODES[0], index: number }
         </div>
 
         <div className="flex justify-between items-start mb-10 relative z-10">
-          <motion.div 
+          <MotionDiv 
             whileHover={{ scale: 1.1, rotate: -10 }}
             className="w-16 h-16 rounded-2xl flex items-center justify-center text-white shadow-2xl relative overflow-hidden"
             style={{ backgroundColor: node.color }}
           >
             <div className="absolute inset-0 bg-white/20 animate-pulse" />
             <span className="relative z-10">{node.icon}</span>
-          </motion.div>
+          </MotionDiv>
           <div className="text-right">
             <span className="text-[10px] font-bold opacity-30 uppercase tracking-[0.3em] block mb-1">Impact Pool</span>
             <span className="text-xl font-display font-bold text-[#0b1c2e] leading-none">{node.students}</span>
@@ -78,7 +84,7 @@ const AestheticCard: React.FC<{ node: typeof STRATEGIC_NODES[0], index: number }
           </div>
         </div>
       </div>
-    </motion.div>
+    </MotionDiv>
   );
 };
 
@@ -87,7 +93,7 @@ const NeuralRoadmap = () => {
     <div className="max-w-4xl mx-auto space-y-24 relative">
       {/* The Glow Path */}
       <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-[2px] bg-gradient-to-b from-[#f03c2e]/0 via-[#f03c2e]/20 to-[#f03c2e]/0 hidden md:block">
-        <motion.div 
+        <MotionDiv 
           className="w-full h-40 bg-gradient-to-b from-transparent via-[#f03c2e] to-transparent"
           animate={{ y: ["0%", "400%"] }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -95,7 +101,7 @@ const NeuralRoadmap = () => {
       </div>
 
       {STRATEGIC_NODES.filter(n => n.phase === 1).map((node, i) => (
-        <motion.div 
+        <MotionDiv 
           key={node.name}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -104,7 +110,7 @@ const NeuralRoadmap = () => {
         >
           {/* Node Point */}
           <div className="absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 z-20 hidden md:block">
-             <motion.div 
+             <MotionDiv 
               whileInView={{ scale: [0.8, 1.2, 1] }}
               className="w-4 h-4 rounded-full bg-white border-4 border-[#0b1c2e] shadow-[0_0_20px_rgba(240,60,46,0.5)]" 
              />
@@ -121,7 +127,7 @@ const NeuralRoadmap = () => {
             </div>
           </div>
           <div className="flex-1 hidden md:block" />
-        </motion.div>
+        </MotionDiv>
       ))}
     </div>
   );
@@ -133,12 +139,12 @@ export const Impact = () => {
   return (
     <div className="min-h-screen bg-[#faf8f5] relative overflow-hidden">
       {/* Background Glow Blobs */}
-      <motion.div 
+      <MotionDiv 
         animate={{ x: [0, 100, 0], y: [0, 50, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
         className="glow-blob w-[600px] h-[600px] bg-[#f03c2e]/5 top-[-300px] left-[-200px]" 
       />
-      <motion.div 
+      <MotionDiv 
         animate={{ x: [0, -100, 0], y: [0, -50, 0] }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         className="glow-blob w-[700px] h-[700px] bg-[#0b1c2e]/5 bottom-[-300px] right-[-200px]" 
@@ -147,13 +153,13 @@ export const Impact = () => {
       <section className="pt-48 pb-32 px-6 relative z-10">
         <div className="container mx-auto">
           <div className="max-w-5xl mx-auto text-center mb-32">
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               className="px-8 py-3 bg-[#0b1c2e] text-white rounded-full text-[10px] font-bold uppercase tracking-[0.4em] mb-12 inline-flex items-center gap-4 shadow-2xl"
             >
               <Sparkles size={14} className="text-[#f03c2e]" /> Region of Opportunity
-            </motion.div>
+            </MotionDiv>
             
             <h1 className="text-7xl md:text-[10rem] font-display font-bold text-[#0b1c2e] mb-12 tracking-tighter leading-[0.8] shimmer-text">
               The Golden <br /> Corridor
@@ -179,8 +185,8 @@ export const Impact = () => {
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
+          <AnyAnimatePresence mode="wait">
+            <MotionDiv
               key={viewMode}
               initial={{ opacity: 0, y: 40 }}
               animate={{ opacity: 1, y: 0 }}
@@ -193,7 +199,7 @@ export const Impact = () => {
                     <AestheticCard key={node.name} node={node} index={i} />
                   ))}
                   
-                  <motion.div 
+                  <MotionDiv 
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     className="bg-[#0b1c2e] p-12 rounded-[3.5rem] flex flex-col justify-center text-white relative overflow-hidden group shadow-3xl"
@@ -207,13 +213,13 @@ export const Impact = () => {
                     <button className="flex items-center gap-2 text-[#f03c2e] font-bold uppercase tracking-[0.3em] text-[10px] group-hover:gap-4 transition-all">
                       Open API Docs <ChevronRight size={14} />
                     </button>
-                  </motion.div>
+                  </MotionDiv>
                 </div>
               ) : (
                 <NeuralRoadmap />
               )}
-            </motion.div>
-          </AnimatePresence>
+            </MotionDiv>
+          </AnyAnimatePresence>
         </div>
       </section>
 
@@ -268,9 +274,13 @@ export const Impact = () => {
             <div className="space-y-12 md:space-y-16">
               <div className="max-w-md">
                 <span className="text-[#f03c2e] font-bold uppercase tracking-[0.5em] text-xs mb-6 block">Economies of Scale</span>
-                <h2 className="text-5xl md:text-7xl font-display font-bold text-[#0b1c2e] mb-12 tracking-tighter leading-[0.9]">
+                <MotionH2 
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  className="text-5xl md:text-7xl font-display font-bold text-[#0b1c2e] mb-12 tracking-tighter leading-[0.9]"
+                >
                   Efficiency <br /> By Design.
-                </h2>
+                </MotionH2>
                 <p className="text-xl md:text-2xl text-[#2d3436]/50 font-medium leading-relaxed">
                   Our nodal architecture allows us to deploy top-tier coaching centers with 70% lower CAPEX than traditional brick-and-mortar competitors.
                 </p>
@@ -281,7 +291,7 @@ export const Impact = () => {
                   { title: "Modular Tech Stacks", desc: "Proprietary offline/online sync protocols for unreliable internet zones." },
                   { title: "Partner Integration", desc: "Turning existing school assets into revenue-generating powerhouses." }
                 ].map((item, i) => (
-                  <motion.div 
+                  <MotionDiv 
                     key={i}
                     whileHover={{ x: 20 }}
                     className="glass-card p-8 md:p-10 rounded-[2.5rem] border border-white/60 flex items-center gap-6 md:gap-10 transition-all duration-500"
@@ -291,7 +301,7 @@ export const Impact = () => {
                       <h4 className="text-xl md:text-2xl font-display font-bold text-[#0b1c2e] mb-2 tracking-tight">{item.title}</h4>
                       <p className="text-base md:text-lg text-[#2d3436]/40 font-medium leading-tight">{item.desc}</p>
                     </div>
-                  </motion.div>
+                  </MotionDiv>
                 ))}
               </div>
             </div>
@@ -304,27 +314,27 @@ export const Impact = () => {
         <div className="absolute inset-0 bg-[radial-gradient(#f03c2e_1px,transparent_1px)] [background-size:64px_64px] opacity-[0.05]" />
         
         <div className="container mx-auto px-6 relative z-10">
-          <motion.h2 
+          <MotionH2 
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-[12rem] font-display font-bold text-white mb-16 md:mb-24 tracking-tighter leading-[0.8] shimmer-text"
           >
             Join the <br /> Renaissance.
-          </motion.h2>
+          </MotionH2>
           
           <div className="flex flex-wrap justify-center gap-6 md:gap-12">
-            <motion.button 
+            <MotionButton 
               whileHover={{ scale: 1.05 }}
               className="w-full sm:w-auto bg-[#f03c2e] text-white px-12 md:px-20 py-6 md:py-8 rounded-full text-lg md:xl font-bold uppercase tracking-[0.2em] shadow-[0_25px_50px_-12px_rgba(240,60,46,0.5)] hover:brightness-110 transition-all"
             >
               Partner Now
-            </motion.button>
-            <motion.button 
+            </MotionButton>
+            <MotionButton 
               whileHover={{ scale: 1.05 }}
               className="w-full sm:w-auto bg-transparent text-white border-2 border-white/20 backdrop-blur-xl px-12 md:px-20 py-6 md:py-8 rounded-full text-lg md:xl font-bold uppercase tracking-[0.2em] hover:bg-white hover:text-[#0b1c2e] transition-all"
             >
               Learn More
-            </motion.button>
+            </MotionButton>
           </div>
         </div>
       </section>

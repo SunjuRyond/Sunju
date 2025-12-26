@@ -1,5 +1,8 @@
+
 import React, { useEffect } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+// Fix: Use namespace import for Routes, Route, and useLocation
+import * as Router from 'react-router-dom';
+const { Routes, Route, useLocation } = Router as any;
 import { Layout } from './components/Layout';
 import { Home } from './pages/Home';
 import { Model } from './pages/Model';

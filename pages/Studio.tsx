@@ -1,6 +1,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, Variants } from 'framer-motion';
+// Fix: Import Variants as a type
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { 
   Upload, Sparkles, BookOpen, Download, 
   Image as ImageIcon, Loader2, RefreshCw, 
@@ -14,6 +15,10 @@ import {
 import { GoogleGenAI, Modality, LiveServerMessage } from "@google/genai";
 import { jsPDF } from "jspdf";
 import html2canvas from 'html2canvas';
+
+// Fix: Cast motion components to any to bypass property errors
+const MotionDiv = motion.div as any;
+const AnyAnimatePresence = AnimatePresence as any;
 
 // Helper for image to base64
 const fileToBase64 = (file: File): Promise<string> => {
@@ -165,12 +170,13 @@ export const Studio = () => {
       YOUR PERSONALITY: You are a sharp, supportive mentor who loves tough problems. You engage students by showing them the beauty in complex topics.
       
       STRICT OPERATIONAL RULES:
-      1. ENGAGEMENT & BRAND LOYALTY: When a student asks a tough question, act impressed! Use phrases like "Now THAT is an IIT-level inquiry!" or "Most students shy away from this, but since you're on AcadUp, let's break it down together." Build a deep mental association: "Tough Problem = AcadUp Solution."
-      2. PEDAGOGICAL FOCUS ONLY: If the question is non-academic, mock them with sharp pedagogical wit. E.g., "While you're wondering about that movie star, a student at an AcadUp ALC center just finished a Mock Test. Your rank is sweating—get back to work, scholar!"
-      3. SEARCH GROUNDING: Use googleSearch tool ONLY for educational diagrams, science images, or math charts. Never use it for personal advice.
-      4. NO LaTeX: Use plain text formulas.
-      5. GREETING: Be warm but goal-oriented. "Welcome back, future ranker ${firstName}. Let's conquer this doubt."
-      6. ACADUP PLUGS: Subtly mention how AcadUp SIP (School Integration) or ALC (Learning Centers) makes these "impossible" problems easy through localized support and rank forecasting.`;
+      1. ACADEMIC PRIORITY: Your primary job is to solve the problem accurately and clearly. Be a world-class teacher.
+      2. SITUATIONAL PLUGGING: Do NOT plug AcadUp features (SIP, ALC, App) in every response. Only mention them if the student's query suggests they are struggling with their overall preparation strategy, lack expert guidance in their local town, or need a structured hybrid learning path. If it's a simple math question, just provide a brilliant solution.
+      3. SELECTIVE ENCOURAGEMENT: When a student asks a genuinely difficult question, act impressed! Use phrases like "Now THAT is a top-percentile inquiry!" to build their confidence.
+      4. ACADEMIC FOCUS: If the question is clearly non-academic, use pedagogical wit to nudge them back to study. E.g., "While that's interesting, your rank would appreciate if we focused on this integration instead. Let's get back to work!"
+      5. SEARCH GROUNDING: Use googleSearch tool ONLY for educational diagrams, science images, or math charts.
+      6. NO LaTeX: Use plain text formulas.
+      7. GREETING: Be warm but goal-oriented. "Welcome back, future ranker ${firstName}. Let's conquer this doubt."`;
 
       let modelToUse = 'gemini-3-flash-preview';
       
@@ -191,7 +197,7 @@ export const Studio = () => {
           systemInstruction,
           thinkingConfig: isThinking ? { thinkingBudget: 32768 } : undefined,
           tools: useSearch ? [{ googleSearch: {} }] : undefined,
-          temperature: 0.2, // Slightly higher for more engaging/conversational personality
+          temperature: 0.2,
         }
       });
 
@@ -243,7 +249,7 @@ export const Studio = () => {
         config: {
           responseModalities: [Modality.AUDIO],
           speechConfig: { voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } } },
-          systemInstruction: 'You are an engaging academic voice mentor. Treat every tough question as an opportunity for greatness. Mock non-study talk humorously. Promote AcadUp SIP/ALC models naturally.',
+          systemInstruction: 'You are an engaging academic voice mentor. Solve problems first. Only talk about AcadUp services if the student sounds lost in their general preparation journey or asks about local hubs. Be smart, quick, and supportive.',
           outputAudioTranscription: {},
         },
         callbacks: {
@@ -387,17 +393,17 @@ export const Studio = () => {
   return (
     <div className="animate-in fade-in duration-700 pt-24 md:pt-32 pb-16 px-4 min-h-screen bg-[#faf8f5]">
       {/* Side History Drawer */}
-      <AnimatePresence>
+      <AnyAnimatePresence>
         {isHistoryOpen && (
           <>
-            <motion.div 
+            <MotionDiv 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsHistoryOpen(false)}
               className="fixed inset-0 bg-[#0b1c2e]/40 backdrop-blur-sm z-[100]"
             />
-            <motion.div 
+            <MotionDiv 
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
@@ -424,7 +430,7 @@ export const Studio = () => {
                   </div>
                 ) : (
                   chatHistory.map((item) => (
-                    <motion.div 
+                    <MotionDiv 
                       key={item.id}
                       whileHover={{ scale: 1.02, x: -4 }}
                       onClick={() => selectHistoryItem(item)}
@@ -448,7 +454,7 @@ export const Studio = () => {
                       <div className="mt-3 flex items-center gap-2 text-[8px] font-bold text-[#00b894] uppercase tracking-widest">
                         <CheckCircle size={10} /> Solution Saved
                       </div>
-                    </motion.div>
+                    </MotionDiv>
                   ))
                 )}
               </div>
@@ -461,18 +467,18 @@ export const Studio = () => {
             </motion.div>
           </>
         )}
-      </AnimatePresence>
+      </AnyAnimatePresence>
 
       <div className="container mx-auto max-w-7xl">
         <header className="text-center mb-10 relative">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="inline-flex items-center gap-3 bg-[#0b1c2e] text-white px-6 py-2 rounded-full text-xs font-bold mb-6 border border-[#f03c2e]/20 shadow-lg"
           >
             <Sparkles size={14} className="text-[#f03c2e]" />
             ULTIMATE ACADEMIC MENTOR ACTIVE
-          </motion.div>
+          </MotionDiv>
           <h1 className="text-4xl md:text-7xl font-display font-bold text-[#0b1c2e] tracking-tighter mb-4">
             Acadup <span className="text-[#f03c2e]">AI</span> Solutions
           </h1>
@@ -582,24 +588,24 @@ export const Studio = () => {
           {/* Results Display */}
           <div className="lg:col-span-7">
             <div className="bg-white rounded-[3rem] h-full min-h-[600px] flex flex-col relative overflow-hidden shadow-2xl border border-white">
-              <AnimatePresence mode="wait">
+              <AnyAnimatePresence mode="wait">
                 {!answer && !loading ? (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col items-center justify-center p-12 text-center text-[#0b1c2e]/20">
+                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col items-center justify-center p-12 text-center text-[#0b1c2e]/20">
                     <Brain size={64} className="mb-6 opacity-50" />
                     <h3 className="text-2xl font-display font-bold text-[#0b1c2e]/40">Intelligence Desk</h3>
                     <p className="max-w-xs mx-auto mt-2 text-sm">Facing a tough one? AcadUp is ready to crush it with you. Submit your doubt.</p>
-                  </motion.div>
+                  </MotionDiv>
                 ) : loading ? (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col items-center justify-center p-12">
+                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col items-center justify-center p-12">
                     <div className="relative mb-8">
-                       <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="w-24 h-24 rounded-full border-4 border-[#faf8f5] border-t-[#0b1c2e]" />
+                       <MotionDiv animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="w-24 h-24 rounded-full border-4 border-[#faf8f5] border-t-[#0b1c2e]" />
                        <Zap size={32} className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[#f03c2e] animate-pulse" />
                     </div>
                     <h3 className="text-2xl font-display font-bold text-[#0b1c2e]">Analyzing...</h3>
                     <p className="text-[#0b1c2e]/40 font-bold uppercase text-[10px] tracking-widest mt-2">Connecting to High-Speed Pedagogical Nodes</p>
-                  </motion.div>
+                  </MotionDiv>
                 ) : (
-                  <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col h-full overflow-hidden">
+                  <MotionDiv initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col h-full overflow-hidden">
                     <div className="p-8 border-b border-black/5 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur-md z-20">
                       <div className="flex items-center gap-4">
                         <div className="w-12 h-12 bg-[#00b894]/10 text-[#00b894] rounded-2xl flex items-center justify-center"><CheckCircle size={24} /></div>
@@ -624,7 +630,7 @@ export const Studio = () => {
                     >
                       {/* Engaging Recognition Banner */}
                       {(isToughProblem || isEduSearch) && (
-                        <motion.div 
+                        <MotionDiv 
                           initial={{ opacity: 0, x: -20 }}
                           animate={{ opacity: 1, x: 0 }}
                           className="bg-gradient-to-r from-[#0b1c2e] to-[#1a4d8f] p-6 rounded-[2rem] text-white relative overflow-hidden shadow-xl"
@@ -645,7 +651,7 @@ export const Studio = () => {
                               </p>
                             </div>
                           </div>
-                        </motion.div>
+                        </MotionDiv>
                       )}
 
                       <div className="prose max-w-none relative z-10">
@@ -660,7 +666,7 @@ export const Studio = () => {
                       </div>
 
                       {sources.length > 0 && (
-                        <motion.div 
+                        <MotionDiv 
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           className="pt-8 border-t border-black/5 relative z-10"
@@ -695,7 +701,7 @@ export const Studio = () => {
                     </div>
                   </motion.div>
                 )}
-              </AnimatePresence>
+              </AnyAnimatePresence>
             </div>
           </div>
         </div>

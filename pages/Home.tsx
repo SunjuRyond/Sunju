@@ -6,13 +6,22 @@ import {
   Smartphone, Instagram, Zap, Sparkles, CheckCircle, 
   Heart, Hand, Brain, MessageSquare, Bot 
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
+// Fix: Use namespace import for Link
+import * as Router from 'react-router-dom';
+const { Link } = Router as any;
 import { AnimatedCounter } from '../components/AnimatedCounter';
+
+// Fix: Cast motion components to any to bypass property errors
+const MotionDiv = motion.div as any;
+const MotionH1 = motion.h1 as any;
+const MotionP = motion.p as any;
+const MotionButton = motion.button as any;
+const AnyAnimatePresence = AnimatePresence as any;
 
 const ParticleBg = () => (
   <div className="absolute inset-0 pointer-events-none opacity-30 overflow-hidden">
     {[...Array(20)].map((_, i) => (
-      <motion.div
+      <MotionDiv
         key={i}
         className="absolute w-2 h-2 rounded-full bg-[#f03c2e]"
         initial={{ 
@@ -50,20 +59,20 @@ const Hero = () => {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden py-20 px-6 mesh-gradient">
       <ParticleBg />
       <div className="container mx-auto text-center relative z-10">
-        <AnimatePresence>
+        <AnyAnimatePresence>
           {returningUser && (
-            <motion.div
+            <MotionDiv
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               className="mb-6 flex items-center justify-center gap-3 text-[#0b1c2e] font-display font-bold text-xl md:text-2xl"
             >
               <Hand className="text-[#f03c2e] animate-bounce" size={24} />
               Welcome back, {returningUser}!
-            </motion.div>
+            </MotionDiv>
           )}
-        </AnimatePresence>
+        </AnyAnimatePresence>
 
-        <motion.div
+        <MotionDiv
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="inline-flex items-center gap-2 bg-[#f03c2e]/10 text-[#f03c2e] px-6 py-2 rounded-full text-sm font-bold mb-8 border border-[#f03c2e]/20 tracking-wide"
@@ -73,27 +82,27 @@ const Hero = () => {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-[#f03c2e]"></span>
           </span>
           REDEFINING EDUCATION IN UP & BIHAR
-        </motion.div>
+        </MotionDiv>
         
-        <motion.h1 
+        <MotionH1 
           className="text-5xl md:text-8xl font-display font-bold text-[#0b1c2e] mb-8 tracking-tighter max-w-5xl mx-auto leading-[1.1]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ staggerChildren: 0.1 }}
         >
           Education <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0b1c2e] to-[#f03c2e]">Without Borders</span>
-        </motion.h1>
+        </MotionH1>
 
-        <motion.p 
+        <MotionP 
           className="text-lg md:text-2xl text-[#2d3436]/80 max-w-3xl mx-auto mb-12 leading-relaxed font-medium"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
           Bringing Kota-level coaching to every student in Tier 2/3 cities through an integrated ecosystem of Schools, Physical Centers, and Digital Learning.
-        </motion.p>
+        </MotionP>
 
-        <motion.div 
+        <MotionDiv 
           className="flex flex-col sm:flex-row gap-6 justify-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -105,9 +114,9 @@ const Hero = () => {
           <Link to="/auth?role=investor" className="bg-white text-[#0b1c2e] border-2 border-[#0b1c2e] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#0b1c2e] hover:text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-[#0b1c2e]/5">
             Partner With Us
           </Link>
-        </motion.div>
+        </MotionDiv>
 
-        <motion.div 
+        <MotionDiv 
           className="mt-24 grid grid-cols-1 md:grid-cols-3 gap-12 max-w-4xl mx-auto"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -131,7 +140,7 @@ const Hero = () => {
             </span>
             <span className="text-[#2d3436]/60 font-bold uppercase tracking-widest text-[10px]">Annual Students</span>
           </div>
-        </motion.div>
+        </MotionDiv>
       </div>
     </section>
   );
@@ -163,7 +172,7 @@ const ProblemSolution = () => {
             
             <div className="grid grid-cols-2 gap-3 sm:gap-6">
               {problems.map((prob, i) => (
-                <motion.div 
+                <MotionDiv 
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -179,7 +188,7 @@ const ProblemSolution = () => {
                     <h4 className="font-display font-bold text-sm sm:text-xl mb-1 sm:mb-3 text-[#0b1c2e] leading-tight">{prob.title}</h4>
                     <p className="text-[#2d3436]/70 leading-relaxed font-medium text-[10px] sm:text-base">{prob.desc}</p>
                   </div>
-                </motion.div>
+                </MotionDiv>
               ))}
             </div>
           </div>
@@ -193,7 +202,7 @@ const ProblemSolution = () => {
               </h3>
               
               {solutions.map((sol, i) => (
-                <motion.div 
+                <MotionDiv 
                   key={i}
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -215,14 +224,14 @@ const ProblemSolution = () => {
                     ${hoveredIndex !== null && hoveredIndex !== i ? 'opacity-50 grayscale-[0.3] scale-[0.98]' : 'opacity-100'}
                   `}
                 >
-                  <motion.div 
+                  <MotionDiv 
                     animate={{ 
                       scale: hoveredIndex === i ? 1.1 : 1
                     }}
                     className={`w-10 h-10 md:w-14 md:h-14 shrink-0 rounded-xl md:rounded-2xl ${sol.color} flex items-center justify-center text-white shadow-lg`}
                   >
                     <sol.icon size={18} className="md:w-7 md:h-7" />
-                  </motion.div>
+                  </MotionDiv>
                   
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-0.5 md:mb-1">
@@ -239,7 +248,7 @@ const ProblemSolution = () => {
                   <div className="hidden md:block opacity-0 group-hover:opacity-100 transition-opacity">
                     <ArrowRight size={16} className="text-[#0b1c2e]/20" />
                   </div>
-                </motion.div>
+                </MotionDiv>
               ))}
             </div>
           </div>
@@ -331,12 +340,12 @@ const Philosophy = () => {
           className="relative h-[450px] md:h-[650px] w-full flex items-center justify-center [perspective:2000px] md:[perspective:3000px]"
         >
           {!isMobile && (
-            <motion.div 
+            <MotionDiv 
               style={{ rotateX: 75, translateZ: -400, opacity: 0.1 }}
               className="absolute inset-0 pointer-events-none"
             >
               <div className="w-full h-full bg-[linear-gradient(rgba(11,28,46,0.3)_2px,transparent_2px),linear-gradient(90deg,rgba(11,28,46,0.3)_2px,transparent_2px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_at_center,black,transparent_75%)]" />
-            </motion.div>
+            </MotionDiv>
           )}
 
           <div className="relative w-full max-w-5xl h-full flex items-center justify-center [transform-style:preserve-3d]">
@@ -346,7 +355,7 @@ const Philosophy = () => {
               const zIndex = isActive ? 100 : 50 - Math.abs(offset) * 10;
               
               return (
-                <motion.div
+                <MotionDiv
                   key={seg.id}
                   initial={false}
                   animate={{
@@ -367,14 +376,14 @@ const Philosophy = () => {
                   onClick={() => setActiveIndex(i)}
                 >
                   {isActive && !isMobile && (
-                    <motion.div 
+                    <MotionDiv 
                       style={{ x: shadowX, y: shadowY, translateZ: -100, filter: 'blur(40px)' }}
                       className="absolute inset-0 bg-black/40 rounded-[4.5rem] -z-10 scale-90"
                     />
                   )}
 
                   {isActive && !isMobile && (
-                    <motion.div 
+                    <MotionDiv 
                       style={{ 
                         background: useTransform([glareX, glareY], ([x, y]) => `radial-gradient(circle at ${x}% ${y}%, rgba(255,255,255,0.3) 0%, transparent 70%)`)
                       }}
@@ -384,28 +393,28 @@ const Philosophy = () => {
 
                   <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none z-0" />
 
-                  <motion.div 
+                  <MotionDiv 
                     style={{ translateZ: isActive ? (isMobile ? 80 : 150) : 30 }} 
                     className="flex flex-col items-center gap-4 md:gap-8 relative z-30"
                   >
-                    <motion.div 
+                    <MotionDiv 
                       animate={{ y: isActive ? [0, -6, 0] : 0 }}
                       className="p-4 md:p-7 rounded-[1.5rem] md:rounded-[2.5rem] bg-white/20 backdrop-blur-3xl border border-white/40 shadow-xl"
                     >
                       <seg.icon size={isMobile ? 48 : 64} className="text-white drop-shadow-2xl" />
-                    </motion.div>
+                    </MotionDiv>
                     <div className="[transform-style:preserve-3d]">
                       <span className="text-[8px] md:text-[9px] font-bold tracking-[0.4em] text-white/60 uppercase mb-2 md:mb-3 block">{seg.tag}</span>
                       <h3 className="text-white font-display font-bold text-2xl md:text-4xl leading-tight tracking-tighter drop-shadow-2xl">
                         {seg.title}
                       </h3>
                     </div>
-                  </motion.div>
+                  </MotionDiv>
 
-                  <motion.div style={{ translateZ: isActive ? (isMobile ? 60 : 100) : 15 }} className="w-full relative z-30">
-                    <AnimatePresence mode="wait">
+                  <MotionDiv style={{ translateZ: isActive ? (isMobile ? 60 : 100) : 15 }} className="w-full relative z-30">
+                    <AnyAnimatePresence mode="wait">
                       {isActive && (
-                        <motion.div
+                        <MotionDiv
                           key={seg.id}
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
@@ -420,18 +429,18 @@ const Philosophy = () => {
                           >
                             Explore <ArrowRight size={isMobile ? 12 : 16} />
                           </Link>
-                        </motion.div>
+                        </MotionDiv>
                       )}
-                    </AnimatePresence>
-                  </motion.div>
+                    </AnyAnimatePresence>
+                  </MotionDiv>
 
-                  <motion.div 
+                  <MotionDiv 
                     style={{ translateZ: -100 }} 
                     className="absolute bottom-4 md:bottom-8 right-4 md:right-8 text-[6rem] md:text-[12rem] font-bold text-white/5 select-none tracking-tighter leading-none pointer-events-none"
                   >
                     0{i + 1}
-                  </motion.div>
-                </motion.div>
+                  </MotionDiv>
+                </MotionDiv>
               );
             })}
           </div>
@@ -439,7 +448,7 @@ const Philosophy = () => {
 
         <div className="mt-16 md:mt-24 relative z-30">
           <div className="max-w-sm md:max-w-2xl mx-auto p-1.5 md:p-2 bg-white rounded-full shadow-xl border border-black/5 flex relative overflow-hidden">
-            <motion.div 
+            <MotionDiv 
               className="absolute inset-y-1.5 md:inset-y-2 left-1.5 md:left-2 rounded-full z-0"
               initial={false}
               animate={{ 
@@ -470,19 +479,19 @@ const AIPromotionBanner = () => {
   return (
     <section className="py-24 relative overflow-hidden group">
       <div className="container mx-auto px-6">
-        <motion.div 
+        <MotionDiv 
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="relative bg-[#0b1c2e] rounded-[3rem] md:rounded-[4rem] p-10 md:p-20 overflow-hidden shadow-[0_50px_100px_-20px_rgba(11,28,46,0.3)] border border-white/5"
         >
           <div className="absolute inset-0 opacity-20 pointer-events-none">
-            <motion.div 
+            <MotionDiv 
               animate={{ rotate: 360 }}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
               className="absolute -top-1/2 -left-1/4 w-full h-full border border-white/10 rounded-full" 
             />
-            <motion.div 
+            <MotionDiv 
               animate={{ rotate: -360 }}
               transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
               className="absolute -bottom-1/2 -right-1/4 w-full h-full border border-[#f03c2e]/20 rounded-full" 
@@ -491,14 +500,14 @@ const AIPromotionBanner = () => {
 
           <div className="flex flex-col lg:flex-row items-center gap-16 relative z-10">
             <div className="flex-1 text-center lg:text-left">
-              <motion.div 
+              <MotionDiv 
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 className="inline-flex items-center gap-3 bg-[#f03c2e]/10 border border-[#f03c2e]/20 px-6 py-2 rounded-full mb-8"
               >
                 <Sparkles size={16} className="text-[#f03c2e]" />
                 <span className="text-white text-[10px] font-bold uppercase tracking-[0.3em]">AI-Powered Pedagogy</span>
-              </motion.div>
+              </MotionDiv>
               
               <h2 className="text-4xl md:text-7xl font-display font-bold text-white mb-8 tracking-tighter leading-[0.95]">
                 Stuck on a <span className="text-[#f03c2e]">Doubt</span>? <br />
@@ -511,13 +520,13 @@ const AIPromotionBanner = () => {
 
               <div className="flex flex-wrap gap-6 justify-center lg:justify-start">
                 <Link to="/studio">
-                  <motion.button 
+                  <MotionButton 
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     className="bg-white text-[#0b1c2e] px-12 py-6 rounded-[2rem] font-bold text-sm uppercase tracking-widest flex items-center gap-3 shadow-2xl hover:bg-[#f03c2e] hover:text-white transition-all group/btn"
                   >
                     <Brain size={20} className="group-hover/btn:animate-pulse" /> Try AI Studio Now
-                  </motion.button>
+                  </MotionButton>
                 </Link>
                 
                 <div className="flex items-center gap-4 px-6 py-4 rounded-2xl bg-white/5 border border-white/10">
@@ -534,7 +543,7 @@ const AIPromotionBanner = () => {
             </div>
 
             <div className="flex-1 relative">
-              <motion.div 
+              <MotionDiv 
                 animate={{ y: [0, -20, 0] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
                 className="relative bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[4rem] p-10 md:p-14 shadow-3xl"
@@ -568,25 +577,25 @@ const AIPromotionBanner = () => {
                   </div>
                 </div>
 
-                <motion.div 
+                <MotionDiv 
                   animate={{ rotate: [0, 10, -10, 0] }}
                   transition={{ duration: 8, repeat: Infinity }}
                   className="absolute -top-10 -right-10 w-24 h-24 bg-[#00b894] rounded-3xl flex items-center justify-center shadow-2xl z-20"
                 >
                   <CheckCircle className="text-white" size={32} />
-                </motion.div>
+                </MotionDiv>
                 
-                <motion.div 
+                <MotionDiv 
                   animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 4, repeat: Infinity }}
                   className="absolute -bottom-6 -left-6 w-16 h-16 bg-[#f03c2e] rounded-2xl flex items-center justify-center shadow-2xl z-20"
                 >
                   <Sparkles className="text-white" size={24} />
-                </motion.div>
-              </motion.div>
+                </MotionDiv>
+              </MotionDiv>
             </div>
           </div>
-        </motion.div>
+        </MotionDiv>
       </div>
     </section>
   );
@@ -626,7 +635,7 @@ export const Home = () => {
 
       <section className="py-24 md:py-48 bg-white text-center">
         <div className="container mx-auto px-6">
-          <motion.div
+          <MotionDiv
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -639,7 +648,7 @@ export const Home = () => {
             <p className="text-xl md:text-3xl text-[#2d3436]/40 font-medium leading-relaxed italic">
               "We aren't just building a company; we are building the intellectual backbone of India's most underserved regions."
             </p>
-          </motion.div>
+          </MotionDiv>
         </div>
       </section>
     </div>

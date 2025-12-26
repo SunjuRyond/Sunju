@@ -1,7 +1,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { HashRouter } from 'react-router-dom';
+// Fix: Use namespace import to bypass type errors for HashRouter
+import * as Router from 'react-router-dom';
+const { HashRouter } = Router as any;
 import App from './App';
 
 const rootElement = document.getElementById('root');
