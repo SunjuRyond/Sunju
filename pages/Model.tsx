@@ -80,29 +80,33 @@ const TripleThreatShowcase = () => {
     <div className="w-full max-w-6xl mx-auto">
       <div className="flex flex-col lg:flex-row gap-6 lg:gap-12 bg-white rounded-[2.5rem] lg:rounded-[3.5rem] p-4 lg:p-10 shadow-2xl border border-black/5 overflow-hidden">
         
-        {/* Modern Tab Switcher - Segmented Style on Mobile */}
-        <div className="lg:w-1/3 flex lg:flex-col p-1.5 lg:p-3 bg-[#faf8f5] rounded-3xl lg:rounded-[2.5rem] border border-black/5 h-fit gap-1 lg:gap-3">
+        {/* Modern Tab Switcher - Segmented Style optimized for all screens */}
+        <div className="lg:w-1/3 flex lg:flex-col p-1 lg:p-3 bg-[#faf8f5] rounded-[2rem] lg:rounded-[2.5rem] border border-black/5 h-fit gap-1 lg:gap-3">
           {tabs.map((tab, idx) => {
             const isActive = activeTab === idx;
             return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(idx)}
-                className={`flex flex-1 lg:flex-none items-center justify-center lg:justify-start gap-2 lg:gap-4 p-3 lg:p-5 rounded-2xl lg:rounded-[2rem] transition-all duration-500 relative overflow-hidden group ${
+                className={`flex flex-1 lg:flex-none items-center justify-center lg:justify-start gap-1.5 sm:gap-2 lg:gap-4 p-2 sm:p-3 lg:p-5 rounded-xl sm:rounded-2xl lg:rounded-[2rem] transition-all duration-500 relative overflow-hidden group ${
                   isActive ? 'bg-[#0b1c2e] text-white shadow-lg' : 'text-[#0b1c2e]/40 hover:bg-black/5'
                 }`}
               >
-                <div className={`p-2 lg:p-3 rounded-xl lg:rounded-2xl transition-all duration-500 ${isActive ? 'bg-white/10' : 'bg-white shadow-sm group-hover:scale-110'}`}>
-                  <tab.icon size={16} className={isActive ? 'text-white' : 'text-[#0b1c2e]'} />
+                <div className={`p-1.5 sm:p-2 lg:p-3 rounded-lg sm:rounded-xl lg:rounded-2xl transition-all duration-500 ${isActive ? 'bg-white/10' : 'bg-white shadow-sm group-hover:scale-110'}`}>
+                  <tab.icon size={14} className={`${isActive ? 'text-white' : 'text-[#0b1c2e]'} lg:w-4 lg:h-4`} />
                 </div>
                 <div className="text-left">
                   <p className={`text-[7px] lg:text-[9px] font-bold uppercase tracking-[0.2em] mb-0.5 hidden lg:block ${isActive ? 'text-white/40' : 'text-[#0b1c2e]/20'}`}>Segment 0{idx + 1}</p>
-                  <p className="font-display font-bold text-[10px] lg:text-sm tracking-tight whitespace-nowrap">{tab.title}</p>
+                  <p className="font-display font-bold text-[8px] xs:text-[9px] sm:text-[10px] lg:text-sm tracking-tight leading-none whitespace-nowrap">
+                    <span className="xs:hidden">{tab.short}</span>
+                    <span className="hidden xs:inline sm:hidden">{tab.title.split(' ')[0]}</span>
+                    <span className="hidden sm:inline">{tab.title}</span>
+                  </p>
                 </div>
                 {isActive && (
                   <MotionDiv 
                     layoutId="active-indicator"
-                    className="absolute bottom-0 lg:bottom-auto lg:right-0 left-0 lg:left-auto w-full lg:w-1 h-1 lg:h-full bg-[#f03c2e]" 
+                    className="absolute bottom-0 lg:bottom-auto lg:right-0 left-0 lg:left-auto w-full lg:w-1.5 h-0.5 lg:h-full bg-[#f03c2e]" 
                   />
                 )}
               </button>
@@ -123,12 +127,12 @@ const TripleThreatShowcase = () => {
             >
               <div className="p-2 lg:p-0">
                 <div className="flex items-center gap-3 lg:gap-4 mb-6 lg:mb-8">
-                  <div className="w-12 h-12 lg:w-16 lg:h-16 rounded-2xl lg:rounded-3xl flex items-center justify-center text-white shadow-xl relative overflow-hidden" style={{ backgroundColor: tabs[activeTab].color }}>
+                  <div className="w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 rounded-xl sm:rounded-2xl lg:rounded-3xl flex items-center justify-center text-white shadow-xl relative overflow-hidden" style={{ backgroundColor: tabs[activeTab].color }}>
                     <div className="absolute inset-0 bg-white/20 animate-pulse" />
-                    {React.createElement(tabs[activeTab].icon, { size: 24, className: "relative z-10 lg:w-8 lg:h-8" })}
+                    {React.createElement(tabs[activeTab].icon, { size: 20, className: "relative z-10 sm:w-6 sm:h-6 lg:w-8 lg:h-8" })}
                   </div>
                   <div>
-                    <h3 className="text-2xl lg:text-4xl font-display font-bold text-[#0b1c2e] tracking-tighter">
+                    <h3 className="text-xl sm:text-2xl lg:text-4xl font-display font-bold text-[#0b1c2e] tracking-tighter">
                       {tabs[activeTab].title}
                     </h3>
                     <div className="flex items-center gap-1.5 mt-0.5 lg:mt-1">
@@ -138,23 +142,23 @@ const TripleThreatShowcase = () => {
                   </div>
                 </div>
 
-                <p className="text-sm lg:text-xl text-[#2d3436]/60 leading-relaxed font-medium mb-6 lg:mb-10 max-w-2xl">
+                <p className="text-sm sm:text-base lg:text-xl text-[#2d3436]/60 leading-relaxed font-medium mb-6 lg:mb-10 max-w-2xl">
                   {tabs[activeTab].desc}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 lg:gap-4">
                   {tabs[activeTab].features.map((feat, i) => (
                     <MotionDiv 
                       key={i}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: i * 0.05 }}
-                      className="flex items-center gap-3 lg:gap-4 p-4 lg:p-5 bg-[#faf8f5] rounded-xl lg:rounded-2xl border border-black/5 group hover:border-[#f03c2e]/20 hover:bg-white hover:shadow-md transition-all"
+                      className="flex items-center gap-3 lg:gap-4 p-3 sm:p-4 lg:p-5 bg-[#faf8f5] rounded-xl lg:rounded-2xl border border-black/5 group hover:border-[#f03c2e]/20 hover:bg-white hover:shadow-md transition-all"
                     >
-                      <div className="w-6 h-6 lg:w-8 lg:h-8 rounded-lg lg:rounded-xl bg-white flex items-center justify-center text-[#00b894] shadow-sm group-hover:bg-[#00b894] group-hover:text-white transition-all">
-                        <Check size={12} className="lg:w-4 lg:h-4" />
+                      <div className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 rounded-lg lg:rounded-xl bg-white flex items-center justify-center text-[#00b894] shadow-sm group-hover:bg-[#00b894] group-hover:text-white transition-all">
+                        <Check size={10} className="sm:w-3 sm:h-3 lg:w-4 lg:h-4" />
                       </div>
-                      <span className="text-xs lg:text-sm font-bold text-[#0b1c2e]">{feat}</span>
+                      <span className="text-[11px] sm:text-xs lg:text-sm font-bold text-[#0b1c2e]">{feat}</span>
                     </MotionDiv>
                   ))}
                 </div>
@@ -172,7 +176,7 @@ const TripleThreatShowcase = () => {
                   <span className="text-[8px] lg:text-[10px] font-bold uppercase tracking-widest text-black/30">Verified Ecosystem Component</span>
                 </div>
                 <button 
-                  className="w-full sm:w-auto px-6 lg:px-8 py-3.5 lg:py-4 rounded-xl lg:rounded-2xl font-bold text-[11px] lg:text-sm uppercase tracking-widest flex items-center justify-center gap-2 lg:gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg lg:shadow-xl"
+                  className="w-full sm:w-auto px-6 lg:px-8 py-3.5 lg:py-4 rounded-xl lg:rounded-2xl font-bold text-[10px] sm:text-xs lg:text-sm uppercase tracking-widest flex items-center justify-center gap-2 lg:gap-3 transition-all hover:scale-105 active:scale-95 shadow-lg lg:shadow-xl"
                   style={{ backgroundColor: tabs[activeTab].color, color: 'white' }}
                 >
                   Explore Details <ArrowRight size={14} className="lg:w-4 lg:h-4" />
@@ -317,7 +321,7 @@ const SocialPromotion = () => {
               className="absolute -top-10 -right-10 w-24 h-24 bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] rounded-3xl flex items-center justify-center shadow-2xl z-30"
             >
               <Heart className="text-white" size={32} fill="white" />
-            </motion.div>
+            </MotionDiv>
           </div>
         </div>
       </div>

@@ -74,9 +74,6 @@ export const Auth = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [step, setStep] = useState<'form' | 'otp'>('form');
-  const [otpValue, setOtpValue] = useState('');
-  const [generatedOtp, setGeneratedOtp] = useState('');
 
   const [formData, setFormData] = useState({
     fullName: '',
@@ -107,32 +104,11 @@ export const Auth = () => {
     setFormData(prev => ({ ...prev, [field]: val }));
   };
 
-  const handleInitialSubmit = async (e: React.FormEvent) => {
+  const handleAuthSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
 
-    // Simulate OTP generation and "sending mail" from the developer/system
-    const newOtp = Math.floor(100000 + Math.random() * 900000).toString();
-    setGeneratedOtp(newOtp);
-    
-    // In a real scenario, the backend SCRIPT_URL would handle MailApp.sendEmail()
-    console.log(`[DEBUG] OTP for ${formData.email} is: ${newOtp}`);
-    
-    setTimeout(() => {
-      setIsSubmitting(false);
-      setStep('otp');
-    }, 1500);
-  };
-
-  const verifyOtpAndFinalize = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (otpValue !== generatedOtp && otpValue !== '123456') { // Allow '123456' as back door for demo
-      setError("Invalid OTP. Please check the code sent to your mail.");
-      return;
-    }
-
-    setIsSubmitting(true);
     try {
       const payload = {
         ...formData,
@@ -141,24 +117,25 @@ export const Auth = () => {
         type: isSignIn ? 'Login' : 'Signup'
       };
 
-      await fetch(SCRIPT_URL, {
+      // Background submission to Google Script for data tracking
+      fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
-      });
+      }).catch(err => console.error("Tracking failed:", err));
 
-      // Save user session
+      // Immediate session creation
       localStorage.setItem('acadup_user', JSON.stringify({ ...payload, avatar: null }));
-      // Save last known user globally (for greeting after logout)
-      localStorage.setItem('acadup_last_user_name', formData.fullName);
+      localStorage.setItem('acadup_last_user_name', formData.fullName || (isSignIn ? 'User' : 'New Member'));
       
       window.dispatchEvent(new Event('storage'));
       setIsSuccess(true);
-      setTimeout(() => navigate(ROUTES.PROFILE), 2000);
+      
+      // Delay navigation slightly for feedback
+      setTimeout(() => navigate(ROUTES.PROFILE), 1500);
     } catch (err) {
-      setError("Connection failed. Try again.");
-    } finally {
+      setError("System temporary unavailable. Please try again.");
       setIsSubmitting(false);
     }
   };
@@ -206,53 +183,12 @@ export const Auth = () => {
                 <div className="w-24 h-24 bg-[#00b894]/10 rounded-full flex items-center justify-center text-[#00b894] mx-auto mb-8">
                   <PartyPopper size={48} />
                 </div>
-                <h2 className="text-3xl font-display font-bold text-[#0b1c2e] mb-4">Verification Successful!</h2>
+                <h2 className="text-3xl font-display font-bold text-[#0b1c2e] mb-4">
+                  {isSignIn ? 'Welcome Back!' : 'Registration Complete!'}
+                </h2>
                 <p className="text-[#2d3436]/60 font-medium mb-8 leading-relaxed">
-                  Welcome to the AcadUp ecosystem, {formData.fullName}.
+                  Initializing your {role} dashboard...
                 </p>
-              </MotionDiv>
-            ) : step === 'otp' ? (
-              <MotionDiv key="otp" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }}>
-                <div className="text-center mb-10">
-                  <div className="w-16 h-16 bg-[#f03c2e]/10 rounded-full flex items-center justify-center text-[#f03c2e] mx-auto mb-6">
-                    <ShieldCheck size={32} />
-                  </div>
-                  <h2 className="text-3xl font-display font-bold text-[#0b1c2e] mb-2">Verify Email</h2>
-                  <p className="text-[#2d3436]/40 text-sm font-medium">We've sent a 6-digit code to <br /><span className="text-[#0b1c2e]">{formData.email}</span></p>
-                </div>
-
-                <form onSubmit={verifyOtpAndFinalize} className="space-y-6">
-                  <div className="relative">
-                    <div className="absolute left-5 top-1/2 -translate-y-1/2 text-[#0b1c2e]/20">
-                      <KeyRound size={20} />
-                    </div>
-                    <input 
-                      required
-                      type="text"
-                      maxLength={6}
-                      placeholder="000000"
-                      value={otpValue}
-                      onChange={(e) => setOtpValue(e.target.value.replace(/\D/g, ''))}
-                      className="w-full bg-[#faf8f5] border border-[#0b1c2e]/5 rounded-2xl py-5 pl-14 pr-5 text-center text-3xl font-mono tracking-[0.3em] focus:outline-none focus:border-[#f03c2e] transition-all"
-                    />
-                  </div>
-
-                  <button 
-                    disabled={isSubmitting || otpValue.length < 6}
-                    type="submit"
-                    className="w-full bg-[#f03c2e] text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 hover:bg-[#d93429] transition-all shadow-xl shadow-[#f03c2e]/20 disabled:opacity-50"
-                  >
-                    {isSubmitting ? <Loader2 className="animate-spin" size={24} /> : 'Verify & Continue'}
-                  </button>
-
-                  <button 
-                    type="button"
-                    onClick={() => setStep('form')}
-                    className="w-full text-[10px] font-bold text-[#0b1c2e]/40 uppercase tracking-[0.2em] hover:text-[#0b1c2e] transition-colors"
-                  >
-                    Back to Edit Details
-                  </button>
-                </form>
               </MotionDiv>
             ) : (
               <MotionDiv key="form">
@@ -271,7 +207,7 @@ export const Auth = () => {
                   </div>
                 </div>
 
-                <form onSubmit={handleInitialSubmit} className="space-y-2">
+                <form onSubmit={handleAuthSubmit} className="space-y-2">
                   {!isSignIn && (
                     <>
                       <div className="mb-8">
@@ -334,7 +270,7 @@ export const Auth = () => {
                     type="submit"
                     className="w-full bg-[#0b1c2e] text-white py-5 rounded-2xl font-bold flex items-center justify-center gap-3 mt-8 hover:bg-[#1a4d8f] transition-all shadow-xl shadow-[#0b1c2e]/10 group disabled:opacity-50"
                   >
-                    {isSubmitting ? <Loader2 className="animate-spin" size={24} /> : (isSignIn ? 'Verify Login' : 'Send Verification OTP')}
+                    {isSubmitting ? <Loader2 className="animate-spin" size={24} /> : (isSignIn ? 'Enter Dashboard' : 'Create Account')}
                     {!isSubmitting && <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />}
                   </button>
                   {error && <p className="text-center text-[#f03c2e] text-xs mt-4 font-bold">{error}</p>}

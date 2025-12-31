@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import * as Router from 'react-router-dom';
 const { Link, useLocation } = Router as any;
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, ArrowRight, Twitter, Linkedin, MessageCircle, Sparkles, UserCircle, BookOpen } from 'lucide-react';
+import { Menu, X, ArrowRight, Twitter, Linkedin, MessageCircle, Sparkles, UserCircle, BookOpen, Bot } from 'lucide-react';
 import { ROUTES } from '../constants';
 import { InstallPwaBanner } from './InstallPwaBanner';
 
@@ -46,13 +46,60 @@ const AcadUpLogo = ({ className = "h-10", light = false }: { className?: string;
   </svg>
 );
 
-const NavButton: React.FC<{ name: string, path: string, icon?: React.ReactNode, isActive: boolean }> = ({ name, path, icon, isActive }) => {
+const NavButton: React.FC<{ name: string, path: string, icon?: React.ReactNode, isActive: boolean, isSpecial?: boolean }> = ({ name, path, icon, isActive, isSpecial }) => {
+  if (isSpecial) {
+    return (
+      <Link to={path} className="relative px-5 py-2 group">
+        <MotionDiv
+          animate={{
+            boxShadow: isActive 
+              ? "0 0 25px 5px rgba(124, 58, 237, 0.6)" 
+              : ["0 0 8px rgba(124, 58, 237, 0.3)", "0 0 20px rgba(124, 58, 237, 0.5)", "0 0 8px rgba(124, 58, 237, 0.3)"],
+          }}
+          transition={isActive ? { duration: 0.3 } : { duration: 2, repeat: Infinity, ease: "easeInOut" }}
+          className={`relative z-10 text-[13px] font-bold uppercase tracking-[0.1em] transition-all duration-300 flex items-center gap-2.5 ${
+            isActive 
+              ? 'text-white' 
+              : 'text-[#7c3aed] group-hover:text-[#6d28d9]'
+          }`}
+        >
+          <MotionDiv
+            animate={{ 
+              y: [0, -4, 0],
+              rotate: [0, 10, -10, 0],
+              scale: [1, 1.1, 1]
+            }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+            className={`${isActive ? 'text-white' : 'text-[#7c3aed]'}`}
+          >
+            <Bot size={18} className={isActive ? "" : "drop-shadow-[0_0_10px_rgba(124,58,237,0.8)]"} />
+          </MotionDiv>
+          <span className={`${!isActive ? 'bg-clip-text text-transparent bg-gradient-to-r from-[#7c3aed] via-[#a855f7] to-[#4b0082] bg-[length:200%_auto] animate-shimmer-text' : ''}`}>
+            {name}
+          </span>
+        </MotionDiv>
+        {isActive && (
+          <MotionDiv
+            layoutId="nav-pill"
+            className="absolute inset-0 bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#4b0082] rounded-full shadow-[0_10px_30px_-5px_rgba(124,58,237,0.5)]"
+            transition={{ type: "spring", bounce: 0.25, duration: 0.6 }}
+          />
+        )}
+        {!isActive && (
+          <div className="absolute inset-0 bg-purple-500/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 border border-purple-500/20 shadow-[inset_0_0_10px_rgba(124,58,237,0.1)]" />
+        )}
+      </Link>
+    );
+  }
+
   return (
     <Link to={path} className="relative px-5 py-2 group">
-      <span className={`relative z-10 text-[13px] font-bold uppercase tracking-[0.1em] transition-colors duration-300 flex items-center gap-2 ${
-        isActive ? 'text-white' : 'text-[#0b1c2e]/60 group-hover:text-[#0b1c2e]'
+      <span className={`relative z-10 text-[13px] font-bold uppercase tracking-[0.1em] transition-all duration-300 flex items-center gap-2 ${
+        isActive 
+          ? 'text-white' 
+          : 'text-[#0b1c2e]/60 group-hover:text-[#0b1c2e]'
       }`}>
-        {icon && <span className={isActive ? 'text-white' : 'text-white'}>{icon}</span>}
+        {icon && <span>{icon}</span>}
         {name}
       </span>
       {isActive && (
@@ -105,7 +152,7 @@ const Header: React.FC = () => {
   const navLinks = [
     { name: 'The Vision', path: ROUTES.HOME },
     { name: 'How It Works', path: ROUTES.MODEL },
-    { name: 'AI Solutions', path: ROUTES.STUDIO, icon: <Sparkles size={14} /> },
+    { name: 'AI solution', path: ROUTES.STUDIO, isSpecial: true },
     { name: 'Our Impact', path: ROUTES.IMPACT },
   ];
 
@@ -130,8 +177,8 @@ const Header: React.FC = () => {
                 key={link.path}
                 name={link.name} 
                 path={link.path} 
-                icon={link.icon}
-                isActive={location.pathname === link.path} 
+                isActive={location.pathname === link.path}
+                isSpecial={link.isSpecial}
               />
             ))}
             <div className="mx-3 h-4 w-[1px] bg-black/10" />
@@ -161,7 +208,7 @@ const Header: React.FC = () => {
               <MotionDiv 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-[#0b1c2e] text-white px-7 py-2 rounded-full text-[13px] font-bold uppercase tracking-[0.1em] transition-all flex items-center gap-2 hover:bg-[#1a4d8f] shadow-md"
+                className="bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#4b0082] text-white px-7 py-2 rounded-full text-[13px] font-bold uppercase tracking-[0.1em] transition-all flex items-center justify-center gap-2 hover:brightness-110 shadow-[0_10px_30px_-5px_rgba(124,58,237,0.5)]"
               >
                 Ask AI <ArrowRight size={14} />
               </MotionDiv>
@@ -177,7 +224,7 @@ const Header: React.FC = () => {
             <Menu size={28} />
           </MotionButton>
         </div>
-      </Header>
+      </header>
 
       {/* Mobile Menu */}
       <AnyAnimatePresence>
@@ -207,10 +254,13 @@ const Header: React.FC = () => {
                   >
                     <Link 
                       to={link.path}
-                      className={`text-4xl font-display font-bold transition-colors ${
-                        isActive ? 'text-[#f03c2e]' : 'text-[#0b1c2e]/40 hover:text-[#0b1c2e]'
+                      className={`text-3xl font-display font-bold transition-all flex items-center gap-4 ${
+                        isActive 
+                          ? (link.isSpecial ? 'text-[#7c3aed]' : 'text-[#f03c2e]')
+                          : 'text-[#0b1c2e]/40 hover:text-[#0b1c2e]'
                       }`}
                     >
+                      {link.isSpecial && <Bot className="animate-bounce text-[#7c3aed]" size={32} />}
                       {link.name}
                     </Link>
                   </MotionDiv>
@@ -225,7 +275,7 @@ const Header: React.FC = () => {
 
             <div className="mt-auto">
               <Link to="/studio">
-                <button className="w-full bg-[#0b1c2e] text-white py-6 rounded-2xl text-xl font-bold uppercase tracking-widest shadow-xl">
+                <button className="w-full bg-gradient-to-r from-[#7c3aed] via-[#6d28d9] to-[#4b0082] text-white py-6 rounded-2xl text-xl font-bold uppercase tracking-widest shadow-xl shadow-purple-500/30">
                   Get AI Support
                 </button>
               </Link>
@@ -233,6 +283,16 @@ const Header: React.FC = () => {
           </MotionDiv>
         )}
       </AnyAnimatePresence>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        @keyframes shimmer-text {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        .animate-shimmer-text {
+          animation: shimmer-text 3s linear infinite;
+        }
+      `}} />
     </>
   );
 };

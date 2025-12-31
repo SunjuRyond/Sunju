@@ -10,6 +10,7 @@ import {
 import * as Router from 'react-router-dom';
 const { Link } = Router as any;
 import { AnimatedCounter } from '../components/AnimatedCounter';
+import { ROUTES } from '../constants';
 
 // Fix: Cast motion components to any to bypass property errors
 const MotionDiv = motion.div as any;
@@ -108,8 +109,8 @@ const Hero = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
         >
-          <Link to="/model" className="bg-[#f03c2e] text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-[#f03c2e]/30 hover:shadow-2xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
-            Start Your Journey <ArrowRight size={20} />
+          <Link to={ROUTES.STUDIO} className="bg-[#f03c2e] text-white px-10 py-5 rounded-full text-lg font-bold shadow-xl shadow-[#f03c2e]/30 hover:shadow-2xl transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
+            Ask AcadUp AI Tutor <ArrowRight size={20} />
           </Link>
           <Link to="/auth?role=investor" className="bg-white text-[#0b1c2e] border-2 border-[#0b1c2e] px-10 py-5 rounded-full text-lg font-bold hover:bg-[#0b1c2e] hover:text-white transition-all transform hover:-translate-y-1 shadow-lg shadow-[#0b1c2e]/5">
             Partner With Us
